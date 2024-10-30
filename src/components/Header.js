@@ -3,8 +3,9 @@ import { useContext } from "react";
 import Context from "../utils/Context";
 
 const Header = () => {
-  const { setLoginOpen } = useContext(Context);
+  const { setLoginOpen , setAddItemOpen } = useContext(Context);
   const handleOpen = () => setLoginOpen(true);
+  const handleAddItem = () => setAddItemOpen(true)
 
   return (
     <div
@@ -79,6 +80,7 @@ const Header = () => {
         <button
           className="w-[90%] h-[80%] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[50%] bg rounded-2xl font-semibold text-xl"
           style={{ background: "#f0f0f2" }}
+          onClick={handleAddItem}
         >
           <span className="">+</span> Sell
         </button>
