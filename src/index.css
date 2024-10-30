@@ -1,13 +1,16 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-border {
+  border-top: 4px solid #0fd6c9; /* Cyan */
+  border-right: 4px solid #d9cb04; /* Yellow */
+  border-bottom: 4px solid #0e49eb; /* Blue */
+  border-left: 4px solid #d9cb04; /* Yellow */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.custom-border {
+  /* Optional: If you want to add more styling to make the button more visually appealing */
+  position: relative; /* Position relative for pseudo-elements if needed */
+  overflow: hidden; /* To clip any children that overflow the button */
 }
