@@ -13,6 +13,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import toast from "react-hot-toast";
 
 const style = {
   position: "absolute",
@@ -84,12 +85,15 @@ export default function Login() {
               const { displayName } = auth.currentUser;
               setUserName(displayName);
               setLoginOpen(false);
+              toast.success("Registered successfully.")
             })
             .catch((error) => {
+              toast.error("Registration failed, please try again.")
               setErrMessage(error.message);
             });
-        })
-        .catch((error) => {
+          })
+          .catch((error) => {
+          toast.error("Registration failed, please try again.")
           setErrMessage(error.code);
         });
     } else if(isSignIn && !isSignUp) {
@@ -102,8 +106,10 @@ export default function Login() {
           const user = userCredential.user;
           setUserName(user.displayName);
           setLoginOpen(false);
+          toast.success("Loggined successfully.")
         })
         .catch((error) => {
+          toast.error("Login failed, please try again.")
           setErrMessage(error.code);
         });
     }
