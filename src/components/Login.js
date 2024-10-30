@@ -52,7 +52,6 @@ export default function Login() {
   const password = useRef(null);
   
   const handleSubmit = async() => {
-      setUserName("updated name");
       const data = {
           name: isSignUp && !isSignIn ? name.current.value : null,
       email: email.current.value,
@@ -83,7 +82,8 @@ export default function Login() {
           })
             .then(() => {
               const { displayName } = auth.currentUser;
-              setUserName(displayName)
+              setUserName(displayName);
+              setLoginOpen(false);
             })
             .catch((error) => {
               setErrMessage(error.message);
@@ -93,7 +93,6 @@ export default function Login() {
           setErrMessage(error.code);
         });
     } else if(isSignIn && !isSignUp) {
-      console.log("signIn form");
       signInWithEmailAndPassword(
         auth,
         email.current.value,
@@ -101,11 +100,10 @@ export default function Login() {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log("user : ", user);
-          console.log("userName : ",userName);
+          setUserName(user.displayName);
+          setLoginOpen(false);
         })
         .catch((error) => {
-          console.log(error);
           setErrMessage(error.code);
         });
     }

@@ -1,22 +1,34 @@
 import { useContext, useEffect } from "react";
 import Context from "../utils/Context";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 
 const Header = () => {
-  const { setLoginOpen , setAddItemOpen , userName , setUserName} = useContext(Context);
-  const handleOpen = () => {setLoginOpen(true);}
+  const { setLoginOpen, setAddItemOpen, userName , setUserName } = useContext(Context);
+  const handleOpen = () => {
+    setLoginOpen(true);
+  };
   const handleAddItem = () => setAddItemOpen(true);
-  // const navigate = useNavigate
-
-  useEffect(()=>{
-    const unSubscribe = onAuthStateChanged(auth , (userName) =>{
-      if(userName){
-        
-      }
+  const handleLogOut = () => {
+    signOut(auth)
+    .then(() => {
     })
-  },[])
-  
+    .catch((error)=>{
+      console.log("error : ",error)
+    })
+  }
+
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const {displayName} = user
+            setUserName(displayName);
+          } else {
+          setUserName(null);
+        }
+      });
+      return () => unSubscribe();
+},[setUserName])
 
   return (
     <div
@@ -67,14 +79,25 @@ const Header = () => {
             color: "#002f34",
           }}
         >
-          English
+          {userName || "English"}
         </h4>
-        <h4
-          className="font-semibold text-lg hover:underline cursor-pointer"
-          style={{ color: "#002f34"}}
-          onClick={handleOpen}
-        >Login
-        </h4>
+        {userName ? (
+          <h4
+            className="font-semibold text-lg hover:underline cursor-pointer"
+            style={{ color: "#002f34" }}
+            onClick={handleLogOut}
+          >
+            Logout
+          </h4>
+        ) : (
+          <h4
+            className="font-semibold text-lg hover:underline cursor-pointer"
+            style={{ color: "#002f34" }}
+            onClick={handleOpen}
+          >
+            Login
+          </h4>
+        )}
       </div>
       <div className="relative w-[7%] mt-3 h-full">
         <div>
