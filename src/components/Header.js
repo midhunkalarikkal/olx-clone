@@ -1,11 +1,22 @@
-import Button from "@mui/material/Button";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Context from "../utils/Context";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Header = () => {
-  const { setLoginOpen , setAddItemOpen } = useContext(Context);
-  const handleOpen = () => setLoginOpen(true);
-  const handleAddItem = () => setAddItemOpen(true)
+  const { setLoginOpen , setAddItemOpen , userName , setUserName} = useContext(Context);
+  const handleOpen = () => {setLoginOpen(true);}
+  const handleAddItem = () => setAddItemOpen(true);
+  // const navigate = useNavigate
+
+  useEffect(()=>{
+    const unSubscribe = onAuthStateChanged(auth , (userName) =>{
+      if(userName){
+        
+      }
+    })
+  },[])
+  
 
   return (
     <div

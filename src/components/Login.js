@@ -1,17 +1,18 @@
-import React, { useContext, useRef, useState } from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import Context from "../utils/Context";
-import { Button, Divider, TextField } from "@mui/material";
+import Modal from "@mui/material/Modal";
+import { auth } from "../utils/firebase";
 import CloseIcon from "@mui/icons-material/Close";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Typography from "@mui/material/Typography";
+import { validateUserData } from "../utils/validations";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Button, Divider, TextField } from "@mui/material";
+import React, { useContext, useRef, useState } from "react";
 import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    updateProfile,
-  } from "firebase/auth";
-  import { auth } from '../utils/firebase'
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 const style = {
   position: "absolute",
@@ -29,75 +30,90 @@ const inputStyle = {
 };
 
 export default function Login() {
-  const { loginOpen, setLoginOpen } = useContext(Context);
-  const { setUserName } = useContext(Context)
+  const { loginOpen, setLoginOpen , userName, setUserName } = useContext(Context);
   const [isSignIn, setSignIn] = useState(false);
-  const [isSignUp , setSignUp] = useState(false);
-  const [ errMesage , setErrMessage ] = useState(null)
-
+  const [isSignUp, setSignUp] = useState(false);
+  const [errMesage, setErrMessage] = useState(null);
+  
   const handleClose = () => setLoginOpen(false);
-
+  
   const moveToSignIn = () => {
-    setSignIn(isSignIn ? false : true);
-    setSignUp(false);
-  };
-
-  const moveToSignUp = () => {
-    setSignUp(true);
-    setSignIn(true);
-  }
+      setSignIn(isSignIn ? false : true);
+      setSignUp(false);
+    };
+    
+    const moveToSignUp = () => {
+        setSignUp(true);
+        setSignIn(true);
+    };
 
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
+  
+  const handleSubmit = async() => {
+      setUserName("updated name");
+      const data = {
+          name: isSignUp && !isSignIn ? name.current.value : null,
+      email: email.current.value,
+      password: password.current.value,
+      isSignUp,
+      isSignIn
+    };
 
-  const handleSubmit = () => {
-    const data  = {
-        name : isSignUp ? name.current.value : null,
-        email : email.current.value,
-        password : password.current.value
+    const errors = validateUserData(data);
+    if (errors) {
+      setErrMessage(Object.values(errors).join(" "));
+      return;
     }
 
-    if(isSignIn){
-        signInWithEmailAndPassword(
-            auth,
-            email.current.value,
-            password.current.value
-          )
-            .then((userCredential) => {
-              const user = userCredential.user;
-            })
-            .catch((error) => {
-              console.log(error)
-              setErrMessage(error.code);
-            });
-    }else{
-        createUserWithEmailAndPassword(
-            auth,
-            email.current.value,
-            password.current.value
-          )
-            .then((userCredential) => {
-              const user = userCredential.user;
-              updateProfile(user, {
-                displayName: name.current.value,
-                photoURL: "https://example.com/jane-q-user/profile.jpg",
-              })
-                .then(() => {
-                  const { displayName } = auth.currentUser;
-                  setUserName(displayName)
-                })
-                .catch((error) => {
-                  console.log("error : ",error)
-                  setErrMessage(error.message);
-                });
-            })
-            .catch((error) => {
-              setErrMessage(error.code);
-            });
-    }
+    try{
 
+    if (isSignIn && isSignUp) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: "https://example.com/jane-q-user/profile.jpg",
+          })
+            .then(() => {
+              const { displayName } = auth.currentUser;
+              setUserName(displayName)
+            })
+            .catch((error) => {
+              setErrMessage(error.message);
+            });
+        })
+        .catch((error) => {
+          setErrMessage(error.code);
+        });
+    } else if(isSignIn && !isSignUp) {
+      console.log("signIn form");
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("user : ", user);
+          console.log("userName : ",userName);
+        })
+        .catch((error) => {
+          console.log(error);
+          setErrMessage(error.code);
+        });
+    }
+  }catch(error){
+    console.log("error")
   }
+}
+
 
   return (
     <Modal
@@ -153,29 +169,39 @@ export default function Login() {
         <Box sx={{ border: "none" }}>
           {isSignIn && (
             <Box>
-                {isSignIn && isSignUp && (
-                    <TextField
-                    ref={name}
-                    id="outlined-name"
-                    label="Name"
-                    variant="outlined"
-                    sx={inputStyle}
-                    />
-                )}
+              {isSignIn && isSignUp && (
+                <TextField
+                  inputRef={name}
+                  id="outlined-name"
+                  label="Name"
+                  variant="outlined"
+                  sx={inputStyle}
+                />
+              )}
               <TextField
-                ref={email}
+                inputRef={email}
                 id="outlined-email"
                 label="Email"
                 variant="outlined"
                 sx={inputStyle}
               />
               <TextField
-                ref={password}
+                inputRef={password}
                 id="outlined-password"
                 label="Password"
                 variant="outlined"
                 sx={inputStyle}
               />
+              <Typography
+                variant="p"
+                sx={{
+                  fontWeight: "semibold",
+                  fontSize: ".9rem",
+                  color: "red",
+                }}
+              >
+                {errMesage}
+              </Typography>
               <Button
                 onClick={handleSubmit}
                 fullWidth
@@ -206,13 +232,13 @@ export default function Login() {
                   },
                 }}
               >
-                <ArrowBackIcon  className="mx-2 mb-1"/>Back
+                <ArrowBackIcon className="mx-2 mb-1" />
+                Back
               </Typography>
             </Box>
           )}
 
-
-          {!isSignIn && !isSignUp &&(
+          {!isSignIn && !isSignUp && (
             <Box>
               <Button
                 fullWidth
