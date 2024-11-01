@@ -11,7 +11,7 @@ const SubHeader = () => {
 
   return (
     <div
-      className="flex py-2 px-4 bg-white  w-[80%] m-auto"
+      className="flex py-2 px-4 bg-white  w-[90%] lg:w-[90%] m-auto"
       style={{ color: "#002f34" }}
     >
       <div className="flex items-center w-[70%] lg:w-[20%]  px-6">
