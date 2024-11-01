@@ -9,6 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SellButton from "./SellButton";
 import NavMenuBox from "./NavMenuBox";
 import useHandleLogout from "../../utils/hooks/useHandleLogout";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const Header = () => {
   const { setLoginOpen, userName, setUserName, userLoggedIn } = useContext(Context);
@@ -41,7 +42,7 @@ const Header = () => {
     <>
       <Toaster position="top-right" reverseOrder={false} />
       <div
-        className="w-full flex p-1 border-b-4 border-white shadow-lg h-20"
+        className="w-full flex p-1 border-b-4 border-white shadow-lg h-14 md:h-16"
         style={{ backgroundColor: "#f0f0f2" }}
       >
         <Box
@@ -64,23 +65,35 @@ const Header = () => {
           />
         </Box>
 
-        <div className="items-center justify-center px-1 hidden md:flex md:w-[20%] lg:w-[24%]">
+        <div className="items-center justify-center px-1 hidden md:flex md:w-[20%] lg:w-[24%] mx-3">
           <input
-            className="w-[90%] mx-3 h-12 py-2 px-6 border-2 rounded-sm"
+            className="w-[90%] h-12 py-2 pl-3 border-0"
             style={{
-              borderColor: "#002f34",
-              borderWidth: "2px",
-              borderStyle: "solid",
+              borderTop: "2px solid #002f34",
+              borderLeft: "2px solid #002f34",
+              borderBottom: "2px solid #002f34",
+              borderTopLeftRadius: "4px",
+              borderBottomLeftRadius: "4px",
             }}
             type="text"
             placeholder="India"
           />
+          <button
+            className="w-[10%] h-12 pr-3 flex justify-center items-center cursor-pointer bg-white border-0 rounded-r-sm"
+            style={{
+              borderTop: "2px solid #002f34",
+              borderRight: "2px solid #002f34",
+              borderBottom: "2px solid #002f34",
+            }}
+          >
+            <KeyboardArrowDownIcon style={{color: "#002f34"}}/>
+          </button>
         </div>
 
         {/* Search bar */}
         <div className="flex items-center px-1 w-[70%] md:w-[55%] lg:w-[49%]">
           <input
-            className="w-[96%] h-12 p-2 border-2 rounded-l-sm"
+            className="w-[96%] h-10 md:h-12 p-2 border-2 rounded-l-sm"
             style={{
               borderColor: "#002f34",
               borderWidth: "2px",
@@ -90,7 +103,7 @@ const Header = () => {
             placeholder="Find Cars. Mobile Phones and more...."
           />
           <button
-            className="w-[4%] h-12 rounded-r-sm px-6 flex justify-center items-center"
+            className="w-[4%] h-10 md:h-12 rounded-r-sm px-6 flex justify-center items-center"
             style={{
               backgroundColor: "#002f34",
             }}

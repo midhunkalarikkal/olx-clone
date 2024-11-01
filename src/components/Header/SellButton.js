@@ -67,7 +67,7 @@ const SellButton = () => {
             onClick={handleAddItem}
             sx={{
               width: { lg: "60%", xl: "60%" },
-              height: "55%",
+              height: "70%",
               position: "absolute",
               top: "50%",
               left: "50%",
