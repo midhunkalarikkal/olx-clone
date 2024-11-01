@@ -1,4 +1,4 @@
-import Header from "./Header"
+import Header from "./Header/Header"
 import MainContainer from "./MainContainer"
 
 const Body = () => {
