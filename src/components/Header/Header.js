@@ -11,7 +11,7 @@ import NavMenuBox from "./NavMenuBox";
 import useHandleLogout from "../../utils/hooks/useHandleLogout";
 
 const Header = () => {
-  const { setLoginOpen, userName, setUserName } = useContext(Context);
+  const { setLoginOpen, userName, setUserName, userLoggedIn } = useContext(Context);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -107,13 +107,17 @@ const Header = () => {
               color: "#002f34",
             }}
           >
-            {userName || "English"}
+            {
+              userLoggedIn ? (
+                userName.length > 6 ? userName.slice(0,6) + "..." : userName
+              ) : "English"
+            }
           </h4>
         </div>
 
         {/* Login logout */}
         <div className="items-center justify-center px-1 hidden lg:flex w-[6%]">
-          {userName ? (
+          {userLoggedIn ? (
             <h4
               className="font-semibold text-lg hover:underline cursor-pointer"
               style={{ color: "#002f34" }}

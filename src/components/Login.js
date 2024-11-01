@@ -31,7 +31,7 @@ const inputStyle = {
 };
 
 export default function Login() {
-  const { loginOpen, setLoginOpen , setUserName , setUserUid } = useContext(Context);
+  const { loginOpen, setLoginOpen , setUserName , setUserUid , setUserLoggedIn } = useContext(Context);
   const [isSignIn, setSignIn] = useState(false);
   const [isSignUp, setSignUp] = useState(false);
   const [errMesage, setErrMessage] = useState(null);
@@ -55,10 +55,10 @@ export default function Login() {
   const handleSubmit = async() => {
       const data = {
           name: isSignUp && !isSignIn ? name.current.value : null,
-      email: email.current.value,
-      password: password.current.value,
-      isSignUp,
-      isSignIn
+          email: email.current.value,
+          password: password.current.value,
+          isSignUp,
+          isSignIn
     };
 
     const errors = validateUserData(data);
@@ -86,6 +86,7 @@ export default function Login() {
               setUserName(displayName);
               setUserUid(uid);
               setLoginOpen(false);
+              setUserLoggedIn(true);
               toast.success("Registered successfully.")
             })
             .catch((error) => {
@@ -94,20 +95,21 @@ export default function Login() {
             });
           })
           .catch((error) => {
-          toast.error("Registration failed, please try again.")
-          setErrMessage(error.code);
-        });
-    } else if(isSignIn && !isSignUp) {
-      signInWithEmailAndPassword(
-        auth,
-        email.current.value,
-        password.current.value
-      )
-        .then((userCredential) => {
-          const user = userCredential.user;
-          setUserName(user.displayName);
-          setUserUid(user.uid);
-          setLoginOpen(false);
+            toast.error("Registration failed, please try again.")
+            setErrMessage(error.code);
+          });
+        } else if(isSignIn && !isSignUp) {
+          signInWithEmailAndPassword(
+            auth,
+            email.current.value,
+            password.current.value
+          )
+          .then((userCredential) => {
+            const user = userCredential.user;
+            setUserName(user.displayName);
+            setUserUid(user.uid);
+            setLoginOpen(false);
+            setUserLoggedIn(true);
           toast.success("Loggined successfully.")
         })
         .catch((error) => {

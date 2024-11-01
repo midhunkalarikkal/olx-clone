@@ -4,7 +4,8 @@ const Context = createContext({
     loginOpen : false,
     addItemOpen : false,
     userName : null,
-    userUid : null    
+    userUid : null,
+    userLoggedIn: false,    
 })
 
 export default Context;

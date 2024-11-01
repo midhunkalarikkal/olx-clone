@@ -3,10 +3,10 @@ import Context from "../Context";
 import toast from "react-hot-toast";
 
 const useAddItem = () => {
-    const { setAddItemOpen, userName } = useContext(Context);
+    const { setAddItemOpen, userLoggedIn } = useContext(Context);
   
     const handleAddItem = () => {
-      if (!userName) {
+      if (!userLoggedIn) {
         toast.error("Please login.");
         return;
       }

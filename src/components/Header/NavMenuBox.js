@@ -18,7 +18,7 @@ const listItemTextStyle = { fontSize: { xs: "0.875rem", sm: "1rem" } };
 
 const NavMenuBox = () => {
 
-    const { userName, setLoginOpen } = useContext(Context);
+    const { userName, setLoginOpen, userLoggedIn } = useContext(Context);
 
     const handleAddItem = useAddItem();
 
@@ -43,7 +43,7 @@ const NavMenuBox = () => {
       }}
     >
       <List sx={{ py: 0 }}>
-        {userName && (
+        {userLoggedIn && (
           <ListItem
             sx={listItemStyle}
             component="div"
@@ -53,7 +53,7 @@ const NavMenuBox = () => {
           </ListItem>
         )}
 
-        {userName ? (
+        {userLoggedIn ? (
           <ListItem sx={listItemStyle} component="div" onClick={handleLogOut}>
             <ListItemText sx={listItemTextStyle}>Logout</ListItemText>
           </ListItem>
