@@ -1,9 +1,10 @@
+import Footer from "./Footer";
 import Header from "./Header/Header";
 import MainContainer from "./MainContainer";
 
 const Body = () => {
   return (
-    <div className="w-[100%]">
+    <div className="w-[100%]" style={{backgroundColor: "#f0f0f2"}}>
       {/* <div class="w-full h-screen flex items-center justify-center">
         <div class="block sm:hidden text-center text-white bg-blue-500 p-4 rounded">
           XS Screen
@@ -28,6 +29,7 @@ const Body = () => {
 
       <Header />
       <MainContainer />
+      <Footer />
     </div>
   );
 };
