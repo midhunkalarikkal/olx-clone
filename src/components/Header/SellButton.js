@@ -1,19 +1,10 @@
 import { Box, Button } from '@mui/material'
-import React, { useContext } from 'react'
-import Context from '../../utils/Context';
-import toast from 'react-hot-toast';
+import React from 'react'
+import useAddItem from '../../utils/hooks/useAddItem';
 
 const SellButton = () => {
 
-    const { setAddItemOpen, userName } = useContext(Context);
-
-    const handleAddItem = () => {
-        if (!userName) {
-          toast.error("Please login.");
-          return;
-        }
-        setAddItemOpen(true);
-      };
+  const handleAddItem = useAddItem();
 
   return (
     <Box

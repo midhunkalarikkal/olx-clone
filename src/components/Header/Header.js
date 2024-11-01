@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import Context from "../../utils/Context";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../utils/firebase";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SellButton from "./SellButton";
 import NavMenuBox from "./NavMenuBox";
+import useHandleLogout from "../../utils/hooks/useHandleLogout";
 
 const Header = () => {
-  const { setLoginOpen, userName, setUserName } =
-    useContext(Context);
+  const { setLoginOpen, userName, setUserName } = useContext(Context);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -23,16 +23,7 @@ const Header = () => {
     setLoginOpen(true);
   };
 
-  const handleLogOut = () => {
-    signOut(auth)
-      .then(() => {
-        toast.success("Logged out successfully.");
-      })
-      .catch((error) => {
-        toast.error("Logout failed, please try again");
-        console.log("error : ", error);
-      });
-  };
+  const handleLogOut = useHandleLogout();
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {

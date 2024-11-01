@@ -1,9 +1,9 @@
 import { Box, List, ListItem, ListItemText } from "@mui/material";
 import React, { useContext } from "react";
 import Context from "../../utils/Context";
-import toast from "react-hot-toast";
-import { signOut } from "firebase/auth";
-import { auth } from "../../utils/firebase";
+import useAddItem from "../../utils/hooks/useAddItem";
+import useHandleLogout from "../../utils/hooks/useHandleLogout";
+
 
 const listItemStyle = {
   display: "flex",
@@ -18,26 +18,11 @@ const listItemTextStyle = { fontSize: { xs: "0.875rem", sm: "1rem" } };
 
 const NavMenuBox = () => {
 
-    const { userName, setAddItemOpen, setLoginOpen } = useContext(Context);
+    const { userName, setLoginOpen } = useContext(Context);
 
-    const handleAddItem = () => {
-        if (!userName) {
-          toast.error("Please login.");
-          return;
-        }
-        setAddItemOpen(true);
-      };
+    const handleAddItem = useAddItem();
 
-      const handleLogOut = () => {
-        signOut(auth)
-          .then(() => {
-            toast.success("Logged out successfully.");
-          })
-          .catch((error) => {
-            toast.error("Logout failed, please try again");
-            console.log("error : ", error);
-          });
-      };
+    const handleLogOut = useHandleLogout();
 
       const handleLoginOpen = () => {
         setLoginOpen(true);
