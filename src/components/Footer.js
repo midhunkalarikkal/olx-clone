@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <div className="flex flex-col w-[90%] mx-auto" style={{color: "#002f34"}}>
       <div
-        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 py-6 px-20"
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 py-6 px-10 md:px-20"
         style={{ backgroundColor: "#ebeeef" }}
       >
         <div>
@@ -77,12 +77,12 @@ const Footer = () => {
           <img src="/mobility.png" alt="mobility" />
         </div>
       </div>
-      <div className="flex py-6 text-white text-xs" style={{ backgroundColor: "#002f34" }}>
-        <div className="flex justify-start w-1/2 lg:w-4/12">
-            <p className="pl-32">Help - Sitemap</p>
+      <div className="md:flex py-6 text-white text-xs" style={{ backgroundColor: "#002f34" }}>
+        <div className="flex justify-center md:justify-start lg:w-4/12">
+            <p className="md:pl-32">Help - Sitemap</p>
         </div>
-        <div className="flex justify-end w-1/2 lg:w-8/12">
-            <p className="pr-20">All rights reserver @ 2006-2024 OLX</p>
+        <div className="flex justify-center md:justify-end lg:w-8/12">
+            <p className="md:pr-20">All rights reserver @ 2006-2024 OLX</p>
         </div>
       </div>
     </div>
