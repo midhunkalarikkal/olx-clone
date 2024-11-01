@@ -1,7 +1,7 @@
 import AddItem from "./AddItem";
 import InnerContainer from "./InnerContainer";
 import Login from "./Login";
-import SubHeader from "./SubHeader";
+import SubHeader from "./SubHeader/SubHeader";
 
 const MainContainer = () => {
   return (
