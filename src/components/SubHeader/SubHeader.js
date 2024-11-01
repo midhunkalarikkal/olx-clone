@@ -14,7 +14,7 @@ const SubHeader = () => {
       className="flex py-2 px-4 bg-white  w-[80%] m-auto"
       style={{ color: "#002f34" }}
     >
-      <div className="flex items-center w-[50%] lg:w-[20%]  px-6">
+      <div className="flex items-center w-[70%] lg:w-[20%]  px-6">
         <h3 className="font-semibold text-md">ALL CATEGORIES</h3>
       </div>
       <div className="flex-wrap justify-around gap-2 mr-10 hidden lg:flex w-[70%]">
@@ -27,7 +27,7 @@ const SubHeader = () => {
         <span className="text-sm">For Rent: Houses & Apartments</span>
       </div>
       <div
-        className="flex items-center justify-end w-[50%] lg:hidden"
+        className="flex items-center justify-end w-[30%] lg:hidden"
         onClick={handleOpenUserMenu}
       >
         <MenuIcon />
