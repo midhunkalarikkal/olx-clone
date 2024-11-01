@@ -3,7 +3,7 @@ import MainContainer from "./MainContainer"
 
 const Body = () => {
   return (
-    <div>
+    <div className="w-[100%]">
         <Header />
         <MainContainer />
     </div>

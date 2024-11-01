@@ -31,7 +31,7 @@ const inputStyle = {
 };
 
 export default function Login() {
-  const { loginOpen, setLoginOpen , userName, setUserName } = useContext(Context);
+  const { loginOpen, setLoginOpen , setUserName , setUserUid } = useContext(Context);
   const [isSignIn, setSignIn] = useState(false);
   const [isSignUp, setSignUp] = useState(false);
   const [errMesage, setErrMessage] = useState(null);
@@ -82,8 +82,9 @@ export default function Login() {
             photoURL: "https://example.com/jane-q-user/profile.jpg",
           })
             .then(() => {
-              const { displayName } = auth.currentUser;
+              const { displayName , uid} = auth.currentUser;
               setUserName(displayName);
+              setUserUid(uid);
               setLoginOpen(false);
               toast.success("Registered successfully.")
             })
@@ -105,6 +106,7 @@ export default function Login() {
         .then((userCredential) => {
           const user = userCredential.user;
           setUserName(user.displayName);
+          setUserUid(user.uid);
           setLoginOpen(false);
           toast.success("Loggined successfully.")
         })

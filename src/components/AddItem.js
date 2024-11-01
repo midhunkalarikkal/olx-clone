@@ -1,14 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Context from "../utils/Context";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, TextField, Typography } from "@mui/material";
+import toast from "react-hot-toast";
+import { db , storage } from "../utils/firebase";
+import { ref, uploadBytes } from "firebase/storage";
+import { addDoc, collection } from "firebase/firestore";
 
 const AddItem = () => {
-  const { addItemOpen, setAddItemOpen } = useContext(Context);
+  const { addItemOpen, setAddItemOpen , userName , userUid} = useContext(Context);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const priceRef = useRef(null);
+  const placeRef = useRef(null);
 
   const handleDivClose = () => {
     setAddItemOpen(false);
@@ -22,7 +30,49 @@ const AddItem = () => {
     }
   };
 
-  const handleSubmit = () => {};
+
+  const handleSubmit = async() => {
+    if(!userUid || !userName){
+      toast.error("Please login.")
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("uid",userUid);
+    formData.append("title", titleRef.current.value);
+    formData.append("description",descriptionRef.current.value);
+    formData.append("price",priceRef.current.value);
+    formData.append("place",placeRef.current.value);
+    formData.append("image",image);
+
+    try{
+      if(image){
+        const imageRef = ref(storage , `images/${image.name}`);
+        await uploadBytes(imageRef , image);
+        const imageUrl = `images/${image.name}`;
+
+        await addDoc(collection(db , "items"),{
+          title: titleRef.current.value,
+          description: descriptionRef.current.value,
+          price: priceRef.current.value,
+          place: placeRef.current.value,
+          uid: userUid,
+          imageUrl: imageUrl,
+        })
+      }
+      toast.success("Item added successfully.");
+      titleRef.current.value = "";
+      descriptionRef.current.value = "";
+      priceRef.current.value = "";
+      placeRef.current.value = "";
+      setImage(null);
+      setPreview(null);
+      handleDivClose();
+    }catch(error){
+      console.log("error : ",error);
+      toast.error("Item adding failed, please try again");
+    }
+  };
 
   const style = {
     position: "absolute",
@@ -77,29 +127,33 @@ const AddItem = () => {
           >
             <Box className="w-1/2 p-6">
               <TextField
+                inputRef={titleRef}
                 id="title"
                 label="Title"
                 variant="outlined"
                 sx={inputStyle}
-              />
+                />
               <TextField
+                inputRef={descriptionRef}
                 id="desc"
                 label="Description"
                 variant="outlined"
                 sx={inputStyle}
-              />
+                />
               <TextField
+                inputRef={priceRef}
                 id="price"
                 label="Price"
                 variant="outlined"
                 sx={inputStyle}
-              />
+                />
               <TextField
+                inputRef={placeRef}
                 id="place"
                 label="Place"
                 variant="outlined"
                 sx={inputStyle}
-              />
+                />
             </Box>
 
             <Box className="w-1/2 p-6">
@@ -136,11 +190,12 @@ const AddItem = () => {
                   />
                 </Box>
               )}
+
             </Box>
           </Box>
 
           <Box display="flex" justifyContent="flex-end" mt={4}>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
               Save
             </Button>
           </Box>

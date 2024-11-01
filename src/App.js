@@ -5,10 +5,22 @@ import Context from "./utils/Context";
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [addItemOpen, setAddItemOpen] = useState(false);
-  const [userName , setUserName] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [userUid, setUserUid] = useState(null);
   return (
     <div className="App">
-      <Context.Provider value={{loginOpen , setLoginOpen , addItemOpen , setAddItemOpen , userName , setUserName}}>
+      <Context.Provider
+        value={{
+          loginOpen,
+          setLoginOpen,
+          addItemOpen,
+          setAddItemOpen,
+          userName,
+          setUserName,
+          userUid,
+          setUserUid
+        }}
+      >
         <Body />
       </Context.Provider>
     </div>
