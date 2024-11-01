@@ -6,8 +6,6 @@ import useHandleLogout from "../../utils/hooks/useHandleLogout";
 
 
 const listItemStyle = {
-  display: "flex",
-  flexDirection: "column",
   cursor: "pointer",
   "&:hover": { bgcolor: "grey.200" },
   py: { xs: 0.5, sm: 1 },
@@ -33,7 +31,7 @@ const NavMenuBox = () => {
       sx={{
         position: "absolute",
         width: { xs: 160, sm: 180, md: 200 },
-        top: { xs: 20, sm: 30, md: 40 },
+        top: { xs: 60, sm: 60, md: 60 },
         right: { xs: 10, sm: 20, md: 40 },
         bgcolor: "white",
         color: "text.primary",
