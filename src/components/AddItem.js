@@ -7,7 +7,8 @@ import { Button, TextField, Typography } from "@mui/material";
 import toast from "react-hot-toast";
 
 const AddItem = () => {
-  const { addItemOpen, setAddItemOpen , userName , userUid} = useContext(Context);
+  const { addItemOpen, setAddItemOpen, userName, userUid } =
+    useContext(Context);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const titleRef = useRef(null);
@@ -27,35 +28,46 @@ const AddItem = () => {
     }
   };
 
-
-  const handleSubmit = async() => {
-    if(!userUid || !userName){
-      toast.error("Please login.")
+  const handleSubmit = async () => {
+    if (!userUid || !userName) {
+      toast.error("Please login.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("uid",userUid);
-    formData.append("title", titleRef.current.value);
-    formData.append("description",descriptionRef.current.value);
-    formData.append("price",priceRef.current.value);
-    formData.append("place",placeRef.current.value);
-    formData.append("image",image);
+    formData.append("uid", userUid);
+    formData.append("productName", titleRef.current.value);
+    formData.append("description", descriptionRef.current.value);
+    formData.append("price", priceRef.current.value);
+    formData.append("place", placeRef.current.value);
+    formData.append("imageUrl", image);
 
-    try{
-      if(image){
-       
+    try {
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
       }
-      toast.success("Item added successfully.");
-      titleRef.current.value = "";
-      descriptionRef.current.value = "";
-      priceRef.current.value = "";
-      placeRef.current.value = "";
-      setImage(null);
-      setPreview(null);
-      handleDivClose();
-    }catch(error){
-      console.log("error : ",error);
+      const response = await fetch("http://localhost:5000/user/addProduct", {
+        method: "POST",
+        body: formData,
+      });
+      if (response) {
+        console.log("response : ", response);
+      }
+
+      if (response.ok) {
+        toast.success("Item added successfully.");
+        titleRef.current.value = "";
+        descriptionRef.current.value = "";
+        priceRef.current.value = "";
+        placeRef.current.value = "";
+        setImage(null);
+        setPreview(null);
+        handleDivClose();
+      } else {
+        toast.error("Item adding failed, please try again");
+      }
+    } catch (error) {
+      console.log("error : ", error);
       toast.error("Item adding failed, please try again");
     }
   };
@@ -118,28 +130,28 @@ const AddItem = () => {
                 label="Title"
                 variant="outlined"
                 sx={inputStyle}
-                />
+              />
               <TextField
                 inputRef={descriptionRef}
                 id="desc"
                 label="Description"
                 variant="outlined"
                 sx={inputStyle}
-                />
+              />
               <TextField
                 inputRef={priceRef}
                 id="price"
                 label="Price"
                 variant="outlined"
                 sx={inputStyle}
-                />
+              />
               <TextField
                 inputRef={placeRef}
                 id="place"
                 label="Place"
                 variant="outlined"
                 sx={inputStyle}
-                />
+              />
             </Box>
 
             <Box className="w-1/2 p-6">
@@ -176,7 +188,6 @@ const AddItem = () => {
                   />
                 </Box>
               )}
-
             </Box>
           </Box>
 

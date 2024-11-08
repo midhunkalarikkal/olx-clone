@@ -3,7 +3,7 @@ const router = express.Router();
 const productController = require('../controller/productController');
 const upload = require('../coudinaryConfig');
 
-// router.post('/addProduct', upload.single('image'),productController);
-// router.get('/getAllProducts',productController);
+router.post('/addProduct', upload.single('imageUrl'),productController.addProduct);
+router.get('/getAllProducts',productController.getAllProducts);
 
-// module.export = router;
+module.exports = router;

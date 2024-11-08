@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const productRouter = require('./routes/productRoutes');
 
 const app = express();
 
@@ -20,6 +21,8 @@ function mongooseConnection() {
 }
 
 mongooseConnection();
+
+app.use('/user',productRouter);
 
 const PORT = 5000;
 app.listen(PORT, () => {
