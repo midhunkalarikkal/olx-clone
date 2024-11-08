@@ -1,11 +1,8 @@
-const Product = require("../models/productModel");
 const cloudinary = require("cloudinary").v2;
+const Product = require("../models/productModel");
 
 const addProduct = async (req, res) => {
   try {
-    console.log("Add product controller")
-    console.log("req.body : ",req.body);
-    console.log("req.file : ",req.file);
     const { uid, productName, description, price, place } = req.body;
     const imageUrl = req.file;
 
@@ -33,7 +30,7 @@ const addProduct = async (req, res) => {
   }
 };
 
-const getAllProducts = async (req, res) => {
+const getLiveProducts = async (req, res) => {
   try {
     const products = await Product.find();
     res.status(200).json(products);
@@ -45,5 +42,5 @@ const getAllProducts = async (req, res) => {
 
 module.exports = {
   addProduct,
-  getAllProducts,
+  getLiveProducts,
 };

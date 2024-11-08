@@ -5,7 +5,7 @@ const Context = createContext({
     addItemOpen : false,
     userName : null,
     userUid : null,
-    userLoggedIn: false,    
+    userLoggedIn: false,
 })
 
 export default Context;

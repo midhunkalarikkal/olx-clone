@@ -1,14 +1,13 @@
-import { useContext, useRef, useState } from "react";
-import Context from "../utils/Context";
 import Box from "@mui/material/Box";
+import toast from "react-hot-toast";
+import Context from "../utils/Context";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
+import { useContext, useRef, useState } from "react";
 import { Button, TextField, Typography } from "@mui/material";
-import toast from "react-hot-toast";
 
 const AddItem = () => {
-  const { addItemOpen, setAddItemOpen, userName, userUid } =
-    useContext(Context);
+  const { addItemOpen, setAddItemOpen, userName, userUid } = useContext(Context);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const titleRef = useRef(null);
@@ -43,17 +42,10 @@ const AddItem = () => {
     formData.append("imageUrl", image);
 
     try {
-      for (let [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
       const response = await fetch("http://localhost:5000/user/addProduct", {
         method: "POST",
         body: formData,
       });
-      if (response) {
-        console.log("response : ", response);
-      }
-
       if (response.ok) {
         toast.success("Item added successfully.");
         titleRef.current.value = "";
@@ -64,10 +56,9 @@ const AddItem = () => {
         setPreview(null);
         handleDivClose();
       } else {
-        toast.error("Item adding failed, please try again");
+        toast.error(response.message);
       }
     } catch (error) {
-      console.log("error : ", error);
       toast.error("Item adding failed, please try again");
     }
   };
