@@ -5,9 +5,6 @@ import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, TextField, Typography } from "@mui/material";
 import toast from "react-hot-toast";
-import { db , storage } from "../utils/firebase";
-import { ref, uploadBytes } from "firebase/storage";
-import { addDoc, collection } from "firebase/firestore";
 
 const AddItem = () => {
   const { addItemOpen, setAddItemOpen , userName , userUid} = useContext(Context);
@@ -47,18 +44,7 @@ const AddItem = () => {
 
     try{
       if(image){
-        const imageRef = ref(storage , `images/${image.name}`);
-        await uploadBytes(imageRef , image);
-        const imageUrl = `images/${image.name}`;
-
-        await addDoc(collection(db , "items"),{
-          title: titleRef.current.value,
-          description: descriptionRef.current.value,
-          price: priceRef.current.value,
-          place: placeRef.current.value,
-          uid: userUid,
-          imageUrl: imageUrl,
-        })
+       
       }
       toast.success("Item added successfully.");
       titleRef.current.value = "";
