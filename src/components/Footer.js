@@ -1,7 +1,7 @@
 import React from "react";
+import XIcon from "@mui/icons-material/X";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import XIcon from "@mui/icons-material/X";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 
 const Footer = () => {
@@ -58,7 +58,7 @@ const Footer = () => {
         style={{ backgroundColor: "#002f34" }}
       >
         <div className="flex items-center justify-center">
-          <img src="/carTrade_tech.png" alt="carTrade_tech" />
+          <img src="/cartrade_tech.png" alt="carTrade_tech" />
           <span className="bg-white h-full text-white mx-10">i</span>
         </div>
         <div className="flex items-center justify-center">

@@ -5,6 +5,7 @@ const Context = createContext({
     addItemOpen : false,
     userLoggedIn: false,
     liveProductsLoading: true,
+    frLoading: true,
     FreshRecommendationLoading: true,
     useInfo: null,
 })

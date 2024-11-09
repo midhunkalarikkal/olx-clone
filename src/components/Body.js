@@ -1,6 +1,7 @@
-import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
+import AddItem from "./AddItem";
 import Header from "./Header/Header";
+import { Outlet } from "react-router-dom";
 
 const Body = () => {
   return (
@@ -8,6 +9,7 @@ const Body = () => {
       <Header />
       <Outlet />
       <Footer />
+      <AddItem />
     </div>
   );
 };

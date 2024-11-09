@@ -35,7 +35,7 @@ const NavMenuBox = () => {
           toast.error("Please login");
         }else{
           if(location.pathname === '/profile'){
-            navigate('/')
+            navigate('/');
           }else{
             navigate('/profile');
           }

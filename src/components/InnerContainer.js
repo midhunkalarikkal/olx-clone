@@ -1,6 +1,6 @@
-import Advertisement from "./Advertisement"
-import FreshRecommendations from "./FreshRecommendations";
 import LiveProducts from "./LiveProducts";
+import Advertisement from "./Advertisement";
+import FreshRecommendations from "./FreshRecommendations";
 
 const InnerContainer = () => {
   return (

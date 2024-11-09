@@ -1,6 +1,5 @@
-import AddItem from "./AddItem";
-import InnerContainer from "./InnerContainer";
 import Login from "./Login";
+import InnerContainer from "./InnerContainer";
 import SubHeader from "./SubHeader/SubHeader";
 
 const MainContainer = () => {
@@ -9,7 +8,6 @@ const MainContainer = () => {
         <SubHeader />
         <InnerContainer />
         <Login />
-        <AddItem />
     </div>
   )
 }

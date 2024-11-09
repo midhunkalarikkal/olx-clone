@@ -1,5 +1,5 @@
-import { Box, Button } from '@mui/material'
-import React from 'react'
+import React from 'react';
+import { Box, Button } from '@mui/material';
 import useAddItem from '../../utils/hooks/useAddItem';
 
 const SellButton = () => {
@@ -31,6 +31,7 @@ const SellButton = () => {
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
+                color: "#22d3ee"
               }}
             >
               b
@@ -44,6 +45,7 @@ const SellButton = () => {
                   display: "flex",
                   justifyContent: "center",
                   boxShadow: 3,
+                  color: "#facc15"
                 }}
               >
                 b
@@ -56,6 +58,7 @@ const SellButton = () => {
                   display: "flex",
                   justifyContent: "center",
                   boxShadow: 3,
+                  color: "#2563eb"
                 }}
               >
                 b

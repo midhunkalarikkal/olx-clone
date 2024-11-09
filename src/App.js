@@ -1,16 +1,29 @@
-import { useState } from "react";
 import Body from "./components/Body";
 import Context from "./utils/Context";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MainContainer from "./components/MainContainer";
 import Profile from "./components/Profile";
+import { useEffect, useState } from "react";
+import MainContainer from "./components/MainContainer";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [addItemOpen, setAddItemOpen] = useState(false);
-  const [userLoggedIn , setUserLoggedIn] = useState(false);
   const [liveProductsLoading, setLiveProductsLoading] = useState(true);
-  const [userInfo, setUserInfo]= useState(null);
+  const [frLoading, setFrLoading] = useState(true);
+  const [userInfo, setUserInfo] = useState(() => {
+    const savedUserInfo = localStorage.getItem("userInfo");
+    return savedUserInfo ? JSON.parse(savedUserInfo) : null;
+  });
+  
+  const [userLoggedIn, setUserLoggedIn] = useState(!!userInfo);
+
+  useEffect(() => {
+    if (userInfo) {
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    } else {
+      localStorage.removeItem("userInfo");
+    }
+  }, [userInfo]);
 
   const appRouter = createBrowserRouter([
     {
@@ -41,8 +54,10 @@ function App() {
           setUserLoggedIn,
           liveProductsLoading,
           setLiveProductsLoading,
+          frLoading,
+          setFrLoading,
           userInfo,
-          setUserInfo
+          setUserInfo,
         }}
       >
         <RouterProvider  router={appRouter}/>

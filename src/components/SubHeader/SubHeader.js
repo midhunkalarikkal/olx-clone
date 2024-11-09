@@ -1,6 +1,6 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import SubHeaderMenu from "./SubHeaderMenu";
 import { useState } from "react";
+import SubHeaderMenu from "./SubHeaderMenu";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const SubHeader = () => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
