@@ -1,4 +1,6 @@
-const ItemCard = ({ data }) => {
+import React from "react";
+
+const ItemCard = React.memo(({ data }) => {
 
     const {
     description,
@@ -31,6 +33,6 @@ const ItemCard = ({ data }) => {
     </div>
   </div>
   );
-};
+});
 
 export default ItemCard;

@@ -1,13 +1,13 @@
 import Context from "../utils/Context";
 import ShimmerCard from "./ShimmerCard";
 import LiveProductCard from "./LiveProductCard";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 const LiveProducts = () => {
   const [liveProducts, setLiveProducts] = useState(null);
   const { liveProductsLoading, setLiveProductsLoading } = useContext(Context);
 
-  const getLiveProduct = async () => {
+  const getLiveProduct = useCallback(async () => {
     const response = await fetch("http://localhost:5000/user/getLiveProducts", {
       method: "GET",
     });
@@ -18,7 +18,7 @@ const LiveProducts = () => {
     const data = await response.json();
     setLiveProducts(data);
     setLiveProductsLoading(false);
-  };
+  },[setLiveProductsLoading]);
 
   useEffect(() => {
     getLiveProduct();

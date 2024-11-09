@@ -1,4 +1,6 @@
-const LiveProductCrd = ({ data }) => {
+import React from "react";
+
+const LiveProductCard = React.memo(({ data }) => {
   const { price, place, createdAt, description, imageUrl } = data;
 
   const date = new Date(createdAt);
@@ -26,6 +28,6 @@ const LiveProductCrd = ({ data }) => {
       </div>
     </div>
   );
-};
+});
 
-export default LiveProductCrd;
+export default LiveProductCard;
