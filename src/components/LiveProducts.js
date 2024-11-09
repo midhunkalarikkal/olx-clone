@@ -17,6 +17,7 @@ const LiveProducts = () => {
     }
     const data = await response.json();
     setLiveProducts(data);
+    console.log("data : ",data);
     setLiveProductsLoading(false);
   },[setLiveProductsLoading]);
 
@@ -32,7 +33,7 @@ const LiveProducts = () => {
           Array(4)
             .fill()
             .map((_, index) => <ShimmerCard key={index} />)
-        ) : !liveProducts ? (
+        ) : liveProducts && liveProducts.length === 0 ? (
           <h1 className="text-center text-red-500">
             No live data found on the server
           </h1>
