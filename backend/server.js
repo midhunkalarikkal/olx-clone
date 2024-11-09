@@ -11,7 +11,7 @@ app.use(express.json());
 
 function mongooseConnection() {
   mongoose.set("strictQuery", true);
-  mongoose.connect("mongodb://localhost:27017/olx-clone");
+  mongoose.connect(process.env.MONGODB_URL);
   mongoose.connection.on("error", (err) => {
     console.log("mongodb connection error : ", err);
   });
