@@ -17,7 +17,6 @@ const useHandleLogout = () => {
       })
       .catch((error) => {
         toast.error("Logout failed, please try again");
-        console.log("error : ", error);
       });
   };
   return handleLogOut;

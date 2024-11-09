@@ -25,7 +25,6 @@ const addProduct = async (req, res) => {
       await newProduct.save();
       res.status(201).json({ message: "Product added successfully", product: newProduct });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "An error occurred while adding the product.", error });
   }
 };
@@ -35,12 +34,22 @@ const getLiveProducts = async (req, res) => {
     const products = await Product.find();
     res.status(200).json(products);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "An error occurred while fetching products.", error });
   }
 };
 
+const getUserProducts = async (req,res) => {
+  try{
+    const {uid} = req.query;
+    const products = await Product.find({uid : uid});
+    res.status(200).json(products);
+  }catch(error){
+    res.status(500).json({ message: "An error occurred while fetching products.", error });
+  }
+}
+
 module.exports = {
   addProduct,
   getLiveProducts,
+  getUserProducts
 };

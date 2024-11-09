@@ -11,9 +11,6 @@ const LiveProducts = () => {
     const response = await fetch("http://localhost:5000/user/getLiveProducts", {
       method: "GET",
     });
-    if (response) {
-      console.log("response : ", response);
-    }
     if (!response.ok) {
       setLiveProductsLoading(false);
       return;

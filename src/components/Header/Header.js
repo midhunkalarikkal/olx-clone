@@ -1,16 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import Context from "../../utils/Context";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../utils/firebase";
-import toast, { Toaster } from "react-hot-toast";
-import SearchIcon from "@mui/icons-material/Search";
 import { Box } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import SellButton from "./SellButton";
 import NavMenuBox from "./NavMenuBox";
+import SellButton from "./SellButton";
+import Context from "../../utils/Context";
+import { auth } from "../../utils/firebase";
+import MenuIcon from "@mui/icons-material/Menu";
+import toast, { Toaster } from "react-hot-toast";
+import { onAuthStateChanged } from "firebase/auth";
+import SearchIcon from "@mui/icons-material/Search";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import useHandleLogout from "../../utils/hooks/useHandleLogout";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { setLoginOpen, userName, setUserName, userLoggedIn, setUserInfo } = useContext(Context);
@@ -54,7 +54,7 @@ const Header = () => {
       }
     });
     return () => unSubscribe();
-  }, [setUserName]);
+  }, [setUserInfo]);
 
   return (
     <>
@@ -108,7 +108,6 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Search bar */}
         <div className="flex items-center px-1 w-[70%] md:w-[55%] lg:w-[49%]">
           <input
             className="w-[96%] h-10 md:h-12 p-2 border-2 rounded-l-sm"
@@ -130,7 +129,6 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Name */}
         <div className="items-center justify-center px-1 hidden lg:flex w-[6%] cursor-pointer" onClick={handleProfile}>
           <h4
             className="font-semibold text-lg"
@@ -138,7 +136,6 @@ const Header = () => {
               color: "#002f34",
             }}
           >
-
             {location.pathname === '/profile' ? "Home" : userLoggedIn ? userName.length > 6 ?  userName.slice(0,6)+"..." : userName : "Profile"}
           </h4>
         </div>
@@ -165,7 +162,6 @@ const Header = () => {
 
         <SellButton />
 
-        {/* Navbar menu */}
         <div
           className="flex items-center justify-center w-[15%] lg:hidden"
           onClick={handleOpenUserMenu}

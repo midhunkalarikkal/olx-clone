@@ -1,8 +1,10 @@
-import { Box, List, ListItem, ListItemText } from "@mui/material";
+import toast from "react-hot-toast";
 import React, { useContext } from "react";
 import Context from "../../utils/Context";
 import useAddItem from "../../utils/hooks/useAddItem";
+import { useLocation, useNavigate } from "react-router-dom";
 import useHandleLogout from "../../utils/hooks/useHandleLogout";
+import { Box, List, ListItem, ListItemText } from "@mui/material";
 
 
 const listItemStyle = {
@@ -18,13 +20,27 @@ const NavMenuBox = () => {
 
     const { userName, setLoginOpen, userLoggedIn } = useContext(Context);
 
-    const handleAddItem = useAddItem();
+    const navigate = useNavigate();
+    const location = useLocation();
 
+    const handleAddItem = useAddItem();
     const handleLogOut = useHandleLogout();
 
       const handleLoginOpen = () => {
         setLoginOpen(true);
       };
+
+      const handleProfile = () => {
+        if(!userLoggedIn){
+          toast.error("Please login");
+        }else{
+          if(location.pathname === '/profile'){
+            navigate('/')
+          }else{
+            navigate('/profile');
+          }
+        }
+      }
 
   return (
     <Box
@@ -43,11 +59,13 @@ const NavMenuBox = () => {
       <List sx={{ py: 0 }}>
         {userLoggedIn && (
           <ListItem
+            onClick={handleProfile}
             sx={listItemStyle}
             component="div"
-            onClick={() => console.log("Clicked on 'Logged in as 1'")}
           >
-            <ListItemText sx={listItemTextStyle}>Hi, {userName}</ListItemText>
+            <ListItemText sx={listItemTextStyle}>
+              {location.pathname === "/profile" ? "Home" : userLoggedIn ? userName.length > 6 ? userName.slice(0,6)+"..." : userName : "Profile"}
+            </ListItemText>
           </ListItem>
         )}
 
