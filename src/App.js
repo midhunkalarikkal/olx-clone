@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Body from "./components/Body";
 import Context from "./utils/Context";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import MainContainer from "./components/MainContainer";
+import Profile from "./components/Profile";
 
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -9,6 +12,24 @@ function App() {
   const [userUid, setUserUid] = useState(null);
   const [userLoggedIn , setUserLoggedIn] = useState(false);
   const [liveProductsLoading, setLiveProductsLoading] = useState(true);
+  const [userInfo, setUserInfo]= useState(null);
+
+  const appRouter = createBrowserRouter([
+    {
+      path: "/",
+      element: <Body />,
+      children: [
+        {
+          path: '/',
+          element: <MainContainer />
+        },
+        {
+          path: "/profile",
+          element: <Profile />
+        }
+      ]
+    }
+  ])
   
   return (
     <div className="App">
@@ -25,10 +46,12 @@ function App() {
           userLoggedIn,
           setUserLoggedIn,
           liveProductsLoading,
-          setLiveProductsLoading
+          setLiveProductsLoading,
+          userInfo,
+          setUserInfo
         }}
       >
-        <Body />
+        <RouterProvider  router={appRouter}/>
       </Context.Provider>
     </div>
   );

@@ -32,8 +32,9 @@ const inputStyle = {
 };
 
 export default function Login() {
-  const { loginOpen, setLoginOpen, setUserName, setUserUid, setUserLoggedIn } =
+  const { loginOpen, setLoginOpen, setUserName, setUserUid, setUserLoggedIn, userInfo, setUserInfo } =
     useContext(Context);
+
   const [isSignIn, setSignIn] = useState(false);
   const [isSignUp, setSignUp] = useState(false);
   const [errMesage, setErrMessage] = useState(null);
@@ -88,6 +89,7 @@ export default function Login() {
                 setUserUid(uid);
                 setLoginOpen(false);
                 setUserLoggedIn(true);
+                setUserInfo(auth.currentUser);
                 toast.success("Registered successfully.");
               })
               .catch((error) => {
@@ -111,6 +113,7 @@ export default function Login() {
             setUserUid(user.uid);
             setLoginOpen(false);
             setUserLoggedIn(true);
+            setUserInfo(user);
             toast.success("Loggined successfully.");
           })
           .catch((error) => {
@@ -126,12 +129,12 @@ export default function Login() {
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, provider)
     .then((data) => {
-      console.log("data : ", data);
       const { user } = data;
       setUserName(user.displayName);
       setUserUid(user.uid);
       setLoginOpen(false);
       setUserLoggedIn(true);
+      setUserInfo(data.user);
       toast.success("LoggedIn successfully.");
     })
     .catch((error) => {

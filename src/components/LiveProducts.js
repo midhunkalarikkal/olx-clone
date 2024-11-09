@@ -15,12 +15,10 @@ const LiveProducts = () => {
       console.log("response : ", response);
     }
     if (!response.ok) {
-      console.log("fetching error : ", response);
       setLiveProductsLoading(false);
       return;
     }
     const data = await response.json();
-    console.log("data : ", data);
     setLiveProducts(data);
     setLiveProductsLoading(false);
   };

@@ -8,6 +8,7 @@ const Context = createContext({
     userLoggedIn: false,
     liveProductsLoading: true,
     FreshRecommendationLoading: true,
+    useInfo: null,
 })
 
 export default Context;

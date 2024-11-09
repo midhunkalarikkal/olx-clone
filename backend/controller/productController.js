@@ -34,7 +34,6 @@ const getLiveProducts = async (req, res) => {
   try {
     const products = await Product.find();
     res.status(200).json(products);
-    console.log("products : ",products)
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred while fetching products.", error });

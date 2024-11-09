@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Context from "../../utils/Context";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../utils/firebase";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -10,11 +10,15 @@ import SellButton from "./SellButton";
 import NavMenuBox from "./NavMenuBox";
 import useHandleLogout from "../../utils/hooks/useHandleLogout";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const { setLoginOpen, userName, setUserName, userLoggedIn } = useContext(Context);
+  const { setLoginOpen, userName, setUserName, userLoggedIn, setUserInfo } = useContext(Context);
 
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleOpenUserMenu = () => {
     setMenuOpen(menuOpen ? false : true);
@@ -24,6 +28,18 @@ const Header = () => {
     setLoginOpen(true);
   };
 
+  const handleProfile = () => {
+    if(!userLoggedIn){
+      toast.error("Please login");
+    }else{
+      if(location.pathname === '/profile'){
+        navigate('/')
+      }else{
+        navigate('/profile');
+      }
+    }
+  }
+
   const handleLogOut = useHandleLogout();
 
   useEffect(() => {
@@ -31,8 +47,10 @@ const Header = () => {
       if (user) {
         const { displayName } = user;
         setUserName(displayName);
+        setUserInfo(user);
       } else {
         setUserName(null);
+        setUserInfo(null);
       }
     });
     return () => unSubscribe();
@@ -113,22 +131,18 @@ const Header = () => {
         </div>
 
         {/* Name */}
-        <div className="items-center justify-center px-1 hidden lg:flex w-[6%]">
+        <div className="items-center justify-center px-1 hidden lg:flex w-[6%] cursor-pointer" onClick={handleProfile}>
           <h4
             className="font-semibold text-lg"
             style={{
               color: "#002f34",
             }}
           >
-            {
-              userLoggedIn ? (
-                userName.length > 6 ? userName.slice(0,6) + "..." : userName
-              ) : "English"
-            }
+
+            {location.pathname === '/profile' ? "Home" : userLoggedIn ? userName.length > 6 ?  userName.slice(0,6)+"..." : userName : "Profile"}
           </h4>
         </div>
 
-        {/* Login logout */}
         <div className="items-center justify-center px-1 hidden lg:flex w-[6%]">
           {userLoggedIn ? (
             <h4

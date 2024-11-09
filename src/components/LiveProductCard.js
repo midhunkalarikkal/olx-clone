@@ -16,7 +16,7 @@ const LiveProductCrd = ({ data }) => {
       </div>
       <div className="flex flex-col p-2 md:p-4 space-y-1 md:space-y-2">
         <h5 className="text-sm md:text-lg  font-semibold text-gray-800">
-          {price}
+        ₹ {price}
         </h5>
         <p className="text-sm text-gray-600">{description.slice(0, 20)}...</p>
         <div className="flex justify-between text-sm text-gray-500">
