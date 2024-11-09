@@ -3,7 +3,7 @@ import Context from "./utils/Context";
 import Profile from "./components/Profile";
 import { useEffect, useState } from "react";
 import MainContainer from "./components/MainContainer";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -36,7 +36,11 @@ function App() {
         },
         {
           path: "/profile",
-          element: <Profile />
+          element: userLoggedIn ? (
+            <Profile />
+          ) : (
+            <Navigate to="/" replace />
+          )
         }
       ]
     }
