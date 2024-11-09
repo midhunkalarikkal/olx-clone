@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 const dummyDataContext = createContext({
-    fresRecommended : [
+    freshRecommended : [
         {
         "id": "1785519842",
         "score": 1,

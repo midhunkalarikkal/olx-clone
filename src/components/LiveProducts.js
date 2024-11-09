@@ -17,7 +17,6 @@ const LiveProducts = () => {
     }
     const data = await response.json();
     setLiveProducts(data);
-    console.log("data : ",data);
     setLiveProductsLoading(false);
   },[setLiveProductsLoading]);
 
@@ -38,6 +37,7 @@ const LiveProducts = () => {
             No live data found on the server
           </h1>
         ) : (
+          liveProducts &&
           liveProducts.map((item) => (
             <LiveProductCard key={item._id} data={item} />
           ))

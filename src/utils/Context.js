@@ -6,7 +6,6 @@ const Context = createContext({
     userLoggedIn: false,
     liveProductsLoading: true,
     frLoading: true,
-    FreshRecommendationLoading: true,
     useInfo: null,
 })
 

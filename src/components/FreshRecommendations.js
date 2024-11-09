@@ -5,10 +5,10 @@ import ShimmerCard from "./ShimmerCard";
 import dummyDataContext from "../utils/useContext";
 
 const FreshRecommendations = () => {
-  const { fresRecommended } = useContext(dummyDataContext);
+  const { freshRecommended } = useContext(dummyDataContext);
   const { frLoading, setFrLoading } = useContext(Context);
 
-  if (!fresRecommended) {
+  if (!freshRecommended) {
     setFrLoading(true);
   } else {
     setFrLoading(false);
@@ -22,12 +22,13 @@ const FreshRecommendations = () => {
           Array(4)
             .fill()
             .map((_, index) => <ShimmerCard key={index} />)
-        ) : !fresRecommended ? (
+        ) : !freshRecommended ? (
           <h1 className="text-center text-red-500">
             No live data found on the server
           </h1>
         ) : (
-          fresRecommended.map((item) => (
+          freshRecommended &&
+          freshRecommended.map((item) => (
             <ItemCard key={item.ad_id} data={item} />
           ))
         )}

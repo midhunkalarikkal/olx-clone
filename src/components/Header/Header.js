@@ -133,7 +133,7 @@ const Header = () => {
               color: "#002f34",
             }}
           >
-            {location.pathname === '/profile' ? "Home" : userLoggedIn ? userInfo.displayName.length > 6 ?  userInfo.displayName.slice(0,6)+"..." : userInfo.displayName : "Profile"}
+            {location.pathname === '/profile' ? "Home" : userLoggedIn ? userInfo?.displayName?.length > 6 ?  userInfo?.displayName?.slice(0,6)+"..." : userInfo?.displayName : "Profile"}
           </h4>
         </div>
 
