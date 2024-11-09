@@ -135,8 +135,7 @@ export default function Login() {
       toast.success("LoggedIn successfully.");
     })
     .catch((error) => {
-      toast.success("Login failed, please try again.");
-      setErrMessage(error.code);
+      toast.error("Login failed, please try again.");
     })
   };
 
