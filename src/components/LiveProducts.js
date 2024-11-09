@@ -32,7 +32,7 @@ const LiveProducts = () => {
           Array(4)
             .fill()
             .map((_, index) => <ShimmerCard key={index} />)
-        ) : liveProducts.length === 0 ? (
+        ) : !liveProducts ? (
           <h1 className="text-center text-red-500">
             No live data found on the server
           </h1>
