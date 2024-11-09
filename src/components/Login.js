@@ -6,7 +6,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { validateUserData } from "../utils/validations";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Divider, TextField } from "@mui/material";
+import {
+  Button,
+  Divider,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import React, { useContext, useRef, useState } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -15,6 +21,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import toast from "react-hot-toast";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
@@ -38,8 +45,10 @@ export default function Login() {
   const [isSignIn, setSignIn] = useState(false);
   const [isSignUp, setSignUp] = useState(false);
   const [errMesage, setErrMessage] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClose = () => setLoginOpen(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const moveToSignIn = () => {
     setSignIn(isSignIn ? false : true);
@@ -123,16 +132,16 @@ export default function Login() {
 
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, provider)
-    .then((data) => {
-      const { user } = data;
-      setLoginOpen(false);
-      setUserLoggedIn(true);
-      setUserInfo(user);
-      toast.success("LoggedIn successfully.");
-    })
-    .catch((error) => {
-      toast.error("Login failed, please try again.");
-    })
+      .then((data) => {
+        const { user } = data;
+        setLoginOpen(false);
+        setUserLoggedIn(true);
+        setUserInfo(user);
+        toast.success("LoggedIn successfully.");
+      })
+      .catch((error) => {
+        toast.error("Login failed, please try again.");
+      });
   };
 
   return (
@@ -211,9 +220,23 @@ export default function Login() {
                 label="Password"
                 variant="outlined"
                 sx={inputStyle}
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                        aria-label="toggle password visibility"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Typography
-                variant="p"
+                variant="caption"
                 sx={{
                   fontWeight: "semibold",
                   fontSize: ".9rem",
