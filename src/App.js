@@ -8,6 +8,7 @@ function App() {
   const [userName, setUserName] = useState(null);
   const [userUid, setUserUid] = useState(null);
   const [userLoggedIn , setUserLoggedIn] = useState(false);
+  const [liveProductsLoading, setLiveProductsLoading] = useState(true);
   
   return (
     <div className="App">
@@ -22,7 +23,9 @@ function App() {
           userUid,
           setUserUid,
           userLoggedIn,
-          setUserLoggedIn
+          setUserLoggedIn,
+          liveProductsLoading,
+          setLiveProductsLoading
         }}
       >
         <Body />

@@ -1,5 +1,5 @@
-const router = express.Router();
 const express = require('express');
+const router = express.Router();
 const upload = require('../coudinaryConfig');
 const productController = require('../controller/productController');
 

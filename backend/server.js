@@ -24,7 +24,7 @@ mongooseConnection();
 
 app.use('/user',productRouter);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env._SERVER_PORT || 5000;
 app.listen(PORT, () => {
   console.log("Server is runnig on port", PORT);
 });

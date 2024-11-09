@@ -56,7 +56,7 @@ const AddItem = () => {
         setPreview(null);
         handleDivClose();
       } else {
-        toast.error(response.message);
+        toast.error("Item addin error,please try again");
       }
     } catch (error) {
       toast.error("Item adding failed, please try again");
