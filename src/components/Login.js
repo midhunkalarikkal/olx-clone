@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Context from "../utils/Context";
 import Modal from "@mui/material/Modal";
-import { auth } from "../utils/firebase";
+import { auth, provider } from "../utils/firebase";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { validateUserData } from "../utils/validations";
@@ -12,6 +12,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  signInWithPopup,
 } from "firebase/auth";
 import toast from "react-hot-toast";
 
@@ -31,34 +32,35 @@ const inputStyle = {
 };
 
 export default function Login() {
-  const { loginOpen, setLoginOpen , setUserName , setUserUid , setUserLoggedIn } = useContext(Context);
+  const { loginOpen, setLoginOpen, setUserName, setUserUid, setUserLoggedIn } =
+    useContext(Context);
   const [isSignIn, setSignIn] = useState(false);
   const [isSignUp, setSignUp] = useState(false);
   const [errMesage, setErrMessage] = useState(null);
-  
+
   const handleClose = () => setLoginOpen(false);
-  
+
   const moveToSignIn = () => {
-      setSignIn(isSignIn ? false : true);
-      setSignUp(false);
-    };
-    
-    const moveToSignUp = () => {
-        setSignUp(true);
-        setSignIn(true);
-    };
+    setSignIn(isSignIn ? false : true);
+    setSignUp(false);
+  };
+
+  const moveToSignUp = () => {
+    setSignUp(true);
+    setSignIn(true);
+  };
 
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
-  
-  const handleSubmit = async() => {
-      const data = {
-          name: isSignUp && !isSignIn ? name.current.value : null,
-          email: email.current.value,
-          password: password.current.value,
-          isSignUp,
-          isSignIn
+
+  const handleSubmit = async () => {
+    const data = {
+      name: isSignUp && !isSignIn ? name.current.value : null,
+      email: email.current.value,
+      password: password.current.value,
+      isSignUp,
+      isSignIn,
     };
 
     const errors = validateUserData(data);
@@ -67,61 +69,76 @@ export default function Login() {
       return;
     }
 
-    try{
-
-    if (isSignIn && isSignUp) {
-      createUserWithEmailAndPassword(
-        auth,
-        email.current.value,
-        password.current.value
-      )
-        .then((userCredential) => {
-          const user = userCredential.user;
-          updateProfile(user, {
-            displayName: name.current.value,
-            photoURL: "https://example.com/jane-q-user/profile.jpg",
-          })
-            .then(() => {
-              const { displayName , uid} = auth.currentUser;
-              setUserName(displayName);
-              setUserUid(uid);
-              setLoginOpen(false);
-              setUserLoggedIn(true);
-              toast.success("Registered successfully.")
+    try {
+      if (isSignIn && isSignUp) {
+        createUserWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        )
+          .then((userCredential) => {
+            const user = userCredential.user;
+            updateProfile(user, {
+              displayName: name.current.value,
+              photoURL: "https://example.com/jane-q-user/profile.jpg",
             })
-            .catch((error) => {
-              toast.error("Registration failed, please try again.")
-              setErrMessage(error.message);
-            });
+              .then(() => {
+                const { displayName, uid } = auth.currentUser;
+                setUserName(displayName);
+                setUserUid(uid);
+                setLoginOpen(false);
+                setUserLoggedIn(true);
+                toast.success("Registered successfully.");
+              })
+              .catch((error) => {
+                toast.error("Registration failed, please try again.");
+                setErrMessage(error.message);
+              });
           })
           .catch((error) => {
-            toast.error("Registration failed, please try again.")
+            toast.error("Registration failed, please try again.");
             setErrMessage(error.code);
           });
-        } else if(isSignIn && !isSignUp) {
-          signInWithEmailAndPassword(
-            auth,
-            email.current.value,
-            password.current.value
-          )
+      } else if (isSignIn && !isSignUp) {
+        signInWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        )
           .then((userCredential) => {
             const user = userCredential.user;
             setUserName(user.displayName);
             setUserUid(user.uid);
             setLoginOpen(false);
             setUserLoggedIn(true);
-          toast.success("Loggined successfully.")
-        })
-        .catch((error) => {
-          toast.error("Login failed, please try again.")
-          setErrMessage(error.code);
-        });
+            toast.success("Loggined successfully.");
+          })
+          .catch((error) => {
+            toast.error("Login failed, please try again.");
+            setErrMessage(error.code);
+          });
+      }
+    } catch (error) {
+      console.log("error");
     }
-  }catch(error){
-    console.log("error")
-  }
-}
+  };
 
+  const handleGoogleSignIn = () => {
+    signInWithPopup(auth, provider)
+    .then((data) => {
+      console.log("data : ", data);
+      const { user } = data;
+      setUserName(user.displayName);
+      setUserUid(user.uid);
+      setLoginOpen(false);
+      setUserLoggedIn(true);
+      toast.success("LoggedIn successfully.");
+    })
+    .catch((error) => {
+      toast.success("Login failed, please try again.");
+      setErrMessage(error.code);
+    })
+  };
 
   return (
     <Modal
@@ -267,6 +284,7 @@ export default function Login() {
               </Button>
 
               <Button
+                onClick={handleGoogleSignIn}
                 fullWidth
                 variant="outlined"
                 sx={{
