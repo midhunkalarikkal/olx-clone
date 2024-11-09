@@ -7,7 +7,7 @@ import { useContext, useRef, useState } from "react";
 import { Button, TextField, Typography } from "@mui/material";
 
 const AddItem = () => {
-  const { addItemOpen, setAddItemOpen, userName, userUid } = useContext(Context);
+  const { addItemOpen, setAddItemOpen, userLoggedIn, userInfo } = useContext(Context);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const titleRef = useRef(null);
@@ -28,13 +28,13 @@ const AddItem = () => {
   };
 
   const handleSubmit = async () => {
-    if (!userUid || !userName) {
+    if (!userLoggedIn) {
       toast.error("Please login.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("uid", userUid);
+    formData.append("uid", userInfo.uid);
     formData.append("productName", titleRef.current.value);
     formData.append("description", descriptionRef.current.value);
     formData.append("price", priceRef.current.value);

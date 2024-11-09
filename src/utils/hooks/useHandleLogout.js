@@ -5,13 +5,11 @@ import { useContext } from "react";
 import Context from "../Context";
 
 const useHandleLogout = () => {
-  const { setUserLoggedIn, setUserName, setUserUid, setUserInfo } = useContext(Context)
+  const { setUserLoggedIn, setUserInfo } = useContext(Context)
   const handleLogOut = () => {
     signOut(auth)
       .then(() => {
         setUserLoggedIn(false);
-        setUserName(null);
-        setUserUid(null);
         setUserInfo(null);
         toast.success("Logged out successfully.");
       })

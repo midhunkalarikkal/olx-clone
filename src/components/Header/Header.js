@@ -13,7 +13,7 @@ import useHandleLogout from "../../utils/hooks/useHandleLogout";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const Header = () => {
-  const { setLoginOpen, userName, setUserName, userLoggedIn, setUserInfo } = useContext(Context);
+  const { setLoginOpen, userLoggedIn, userInfo,  setUserInfo } = useContext(Context);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -45,11 +45,8 @@ const Header = () => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { displayName } = user;
-        setUserName(displayName);
         setUserInfo(user);
       } else {
-        setUserName(null);
         setUserInfo(null);
       }
     });
@@ -136,7 +133,7 @@ const Header = () => {
               color: "#002f34",
             }}
           >
-            {location.pathname === '/profile' ? "Home" : userLoggedIn ? userName.length > 6 ?  userName.slice(0,6)+"..." : userName : "Profile"}
+            {location.pathname === '/profile' ? "Home" : userLoggedIn ? userInfo.displayName.length > 6 ?  userInfo.displayName.slice(0,6)+"..." : userInfo.displayName : "Profile"}
           </h4>
         </div>
 

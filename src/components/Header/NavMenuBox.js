@@ -18,7 +18,7 @@ const listItemTextStyle = { fontSize: { xs: "0.875rem", sm: "1rem" } };
 
 const NavMenuBox = () => {
 
-    const { userName, setLoginOpen, userLoggedIn } = useContext(Context);
+    const { userInfo, setLoginOpen, userLoggedIn } = useContext(Context);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -64,7 +64,7 @@ const NavMenuBox = () => {
             component="div"
           >
             <ListItemText sx={listItemTextStyle}>
-              {location.pathname === "/profile" ? "Home" : userLoggedIn ? userName.length > 6 ? userName.slice(0,6)+"..." : userName : "Profile"}
+              {location.pathname === "/profile" ? "Home" : userLoggedIn ? userInfo.displayName.length > 6 ? userInfo.displayName.slice(0,6)+"..." : userInfo.displayName : "Profile"}
             </ListItemText>
           </ListItem>
         )}

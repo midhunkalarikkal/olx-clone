@@ -8,8 +8,6 @@ import Profile from "./components/Profile";
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [addItemOpen, setAddItemOpen] = useState(false);
-  const [userName, setUserName] = useState(null);
-  const [userUid, setUserUid] = useState(null);
   const [userLoggedIn , setUserLoggedIn] = useState(false);
   const [liveProductsLoading, setLiveProductsLoading] = useState(true);
   const [userInfo, setUserInfo]= useState(null);
@@ -39,10 +37,6 @@ function App() {
           setLoginOpen,
           addItemOpen,
           setAddItemOpen,
-          userName,
-          setUserName,
-          userUid,
-          setUserUid,
           userLoggedIn,
           setUserLoggedIn,
           liveProductsLoading,
