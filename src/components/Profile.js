@@ -5,13 +5,12 @@ const Profile = () => {
   const { userInfo } = useContext(Context);
   const [loading, setLoading] = useState(true);
   const [userProducts, setUserProducts] = useState(null);
-  const apiUrl = process.env.REACT_APP_API_URL || process.env.REACT_APP_API_URL_LOCAL;
 
   const { displayName, email, emailVerified, phoneNumber, uid } = userInfo || "";
 
   const getUserProducts = async () => {
     const response = await fetch(
-      `${apiUrl}/user/getUserProducts?uid=${uid}`,
+      `https://olx-c-backend.onrender.com/user/getUserProducts?uid=${uid}`,
       {
         method: "GET",
       }

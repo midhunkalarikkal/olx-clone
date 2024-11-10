@@ -6,13 +6,14 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 const LiveProducts = () => {
   const [liveProducts, setLiveProducts] = useState(null);
   const { liveProductsLoading, setLiveProductsLoading } = useContext(Context);
-  const apiUrl = process.env.REACT_APP_API_URL || process.env.REACT_APP_API_URL_LOCAL;
-
 
   const getLiveProduct = useCallback(async () => {
-    const response = await fetch(`${apiUrl}/user/getLiveProducts`, {
+    const response = await fetch(`https://olx-c-backend.onrender.com/user/getLiveProducts`, {
       method: "GET",
     });
+    if(response){
+      console.log("response : ",response);
+    }
     if (!response.ok) {
       setLiveProductsLoading(true);
       return;
