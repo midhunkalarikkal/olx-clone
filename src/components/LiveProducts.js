@@ -11,9 +11,6 @@ const LiveProducts = () => {
     const response = await fetch(`https://olx-c-backend.onrender.com/user/getLiveProducts`, {
       method: "GET",
     });
-    if(response){
-      console.log("response : ",response);
-    }
     if (!response.ok) {
       setLiveProductsLoading(true);
       return;
