@@ -4,7 +4,7 @@ import Context from "../utils/Context";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { useContext, useRef, useState } from "react";
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography, Grid } from "@mui/material";
 
 const AddItem = () => {
   const { addItemOpen, setAddItemOpen, userLoggedIn, userInfo } = useContext(Context);
@@ -68,18 +68,12 @@ const AddItem = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "50%",
+    width: "90%", // More responsive width
+    maxWidth: "600px",
     bgcolor: "background.paper",
     p: 4,
-    margin: "auto",
-    padding: 4,
     boxShadow: 3,
     borderRadius: 2,
-  };
-
-  const inputStyle = {
-    width: "100%",
-    mb: 2,
   };
 
   return (
@@ -103,90 +97,88 @@ const AddItem = () => {
           />
         </Box>
 
-        <Box>
-          <Typography variant="h6" mb={2}>
-            Add Item for Selling
-          </Typography>
+        <Typography variant="h6" mb={2} textAlign="center">
+          Add Item for Selling
+        </Typography>
 
-          <Box
-            display="flex"
-            alignItems="flex-start"
-            justifyContent="center"
-            gap={2}
-          >
-            <Box className="w-1/2 p-6">
-              <TextField
-                inputRef={titleRef}
-                id="title"
-                label="Title"
-                variant="outlined"
-                sx={inputStyle}
-              />
-              <TextField
-                inputRef={descriptionRef}
-                id="desc"
-                label="Description"
-                variant="outlined"
-                sx={inputStyle}
-              />
-              <TextField
-                inputRef={priceRef}
-                id="price"
-                label="Price"
-                variant="outlined"
-                sx={inputStyle}
-              />
-              <TextField
-                inputRef={placeRef}
-                id="place"
-                label="Place"
-                variant="outlined"
-                sx={inputStyle}
-              />
-            </Box>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <TextField
+              inputRef={titleRef}
+              id="title"
+              label="Title"
+              variant="outlined"
+              fullWidth
+              margin="dense"
+            />
+            <TextField
+              inputRef={descriptionRef}
+              id="desc"
+              label="Description"
+              variant="outlined"
+              fullWidth
+              margin="dense"
+            />
+            <TextField
+              inputRef={priceRef}
+              id="price"
+              label="Price"
+              variant="outlined"
+              fullWidth
+              margin="dense"
+            />
+            <TextField
+              inputRef={placeRef}
+              id="place"
+              label="Place"
+              variant="outlined"
+              fullWidth
+              margin="dense"
+            />
+          </Grid>
 
-            <Box className="w-1/2 p-6">
-              <TextField
-                type="file"
-                inputProps={{ accept: "image/*" }}
-                onChange={handleImageChange}
-                fullWidth
-              />
+          <Grid item xs={12} md={6} textAlign="center">
+            <TextField
+              type="file"
+              inputProps={{ accept: "image/*" }}
+              onChange={handleImageChange}
+              fullWidth
+              margin="dense"
+            />
 
-              {preview && (
-                <Box
-                  mt={2}
-                  sx={{
-                    width: 200,
-                    height: 200,
-                    border: "2px solid #ccc",
-                    borderRadius: 4,
-                    overflow: "hidden",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#fff",
+            {preview && (
+              <Box
+                mt={2}
+                sx={{
+                  width: "100%",
+                  height: 200,
+                  border: "2px solid #ccc",
+                  borderRadius: 2,
+                  overflow: "hidden",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#fff",
+                }}
+              >
+                <img
+                  src={preview}
+                  alt="Selected"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
                   }}
-                >
-                  <img
-                    src={preview}
-                    alt="Selected"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
-          </Box>
+                />
+              </Box>
+            )}
+          </Grid>
+        </Grid>
 
-          <Box display="flex" justifyContent="flex-end" mt={4}>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Save
-            </Button>
-          </Box>
+        <Box display="flex" justifyContent="flex-end" mt={4}>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Save
+          </Button>
         </Box>
       </Box>
     </Modal>
