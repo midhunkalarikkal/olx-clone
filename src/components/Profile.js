@@ -1,9 +1,10 @@
+import toast from "react-hot-toast";
 import Context from "../utils/Context";
 import React, { useContext, useState } from "react";
 
 const Profile = () => {
   const { userInfo, setUpdateItemOpen, setUpdateItem } = useContext(Context);
-  const [loading, setLoading] = useState(true);
+  const [userProductsloading, setUserProductsLoading] = useState(true);
   const [userProducts, setUserProducts] = useState(null);
 
   const { displayName, email, emailVerified, phoneNumber, uid } = userInfo || "";
@@ -17,9 +18,8 @@ const Profile = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("data : ",data);
       setUserProducts(data);
-      setLoading(false);
+      setUserProductsLoading(false);
     }
   };
 
@@ -28,9 +28,21 @@ const Profile = () => {
   }, [userInfo]);
 
   const updateProduct = async (product) => {
-    console.log("button Clicked")
     setUpdateItemOpen(true);
     setUpdateItem(product);
+  }
+
+  const deleteProduct = async (id) => {
+    const response = await fetch(`http://localhost:5000/user/deleteProduct?_id=${id}`,{
+      method: "POST",
+    })
+
+    if(response.ok){
+      toast.success("Product deleted successfullt.");
+      window.location.reload();
+    }else{
+      toast.error("Error product delete, please try again!");
+    }
   }
 
   return (
@@ -41,7 +53,7 @@ const Profile = () => {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-        <div className="bg-white rounded-lg p-6 shadow-md flex flex-col items-center space-y-4 max-h-[300px] overflow-auto">
+        <div className="bg-white rounded-lg p-6 shadow-md flex flex-col items-center space-y-4 max-h-[300px] overflow-auto no-scrollbar">
           <img
             className="w-32 h-32 rounded-full object-cover border-4 border-gray-300"
             src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
@@ -71,7 +83,7 @@ const Profile = () => {
 
         <div className="w-full md:col-span-2 bg-gray-200 p-4">
           <h1 className="font-bold text-md lg:text-2xl py-2">Your products</h1>
-          {loading ? (
+          {userProductsloading ? (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
            {[...Array(3)].map((_, index) => (
              <div key={index} className="bg-gray-400 rounded-lg p-4 shadow-md animate-pulse flex flex-col items-center space-y-4">
@@ -101,7 +113,7 @@ const Profile = () => {
                   </div>
                   <div className="flex space-x-2">
                     <button className="px-4 py-1 text-white bg-yellow-500 rounded" onClick={() => updateProduct(product)}>Update</button>
-                    <button className="px-4 py-1 text-white bg-red-600 rounded">Delete</button>
+                    <button className="px-4 py-1 text-white bg-red-600 rounded" onClick={() => deleteProduct(product._id)}>Delete</button>
                   </div>
                 </div>
               ))}
