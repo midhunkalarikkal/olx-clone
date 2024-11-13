@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 .custom-border {
-  border-top: 4px solid #0fd6c9; /* Cyan */
-  border-right: 4px solid #d9cb04; /* Yellow */
-  border-bottom: 4px solid #0e49eb; /* Blue */
-  border-left: 4px solid #d9cb04; /* Yellow */
+  border-top: 4px solid #0fd6c9; 
+  border-right: 4px solid #d9cb04;
+  border-bottom: 4px solid #0e49eb; 
+  border-left: 4px solid #d9cb04; 
 }
 
 .custom-border {
-  position: relative; /* Position relative for pseudo-elements if needed */
-  overflow: hidden; /* To clip any children that overflow the button */
+  position: relative; 
+  overflow: hidden; 
 }
 
 
@@ -45,6 +45,41 @@
     transform: scale(1.02);
     opacity: 1;
   }
+}
+
+
+/* Loading  */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+width: 100px;
+height: 100px;
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 50%;
+background: linear-gradient(0deg, #FFFFFF 50%, #002f34 100%);
+animation: spin 1s linear infinite;
+}
+
+.inner-circle {
+width: 90%;
+height: 90%;
+background-color: white;
+border-radius: 50%;
+}
+
+@keyframes spin {
+from {
+  transform: rotate(0);
+}
+to{
+  transform: rotate(360deg);
+}
 }
 
 

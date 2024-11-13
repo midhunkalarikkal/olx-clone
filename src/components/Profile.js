@@ -2,7 +2,7 @@ import Context from "../utils/Context";
 import React, { useContext, useState } from "react";
 
 const Profile = () => {
-  const { userInfo } = useContext(Context);
+  const { userInfo, setUpdateItemOpen, setUpdateItem } = useContext(Context);
   const [loading, setLoading] = useState(true);
   const [userProducts, setUserProducts] = useState(null);
 
@@ -10,13 +10,14 @@ const Profile = () => {
 
   const getUserProducts = async () => {
     const response = await fetch(
-      `https://olx-c-backend.onrender.com/user/getUserProducts?uid=${uid}`,
+      `http://localhost:5000/user/getUserProducts?uid=${uid}`,
       {
         method: "GET",
       }
     );
     if (response.ok) {
       const data = await response.json();
+      console.log("data : ",data);
       setUserProducts(data);
       setLoading(false);
     }
@@ -25,6 +26,12 @@ const Profile = () => {
   useState(() => {
     getUserProducts();
   }, [userInfo]);
+
+  const updateProduct = async (product) => {
+    console.log("button Clicked")
+    setUpdateItemOpen(true);
+    setUpdateItem(product);
+  }
 
   return (
     <div className="flex flex-col md:p-8 w-[90%] bg-white h-screen p-2 m-auto mt-1">
@@ -93,7 +100,7 @@ const Profile = () => {
                     <h3 className="text-sm text-gray-600">Created At: {new Date(product.createdAt).toLocaleDateString()}</h3>
                   </div>
                   <div className="flex space-x-2">
-                    <button className="px-4 py-1 text-white bg-yellow-500 rounded">Update</button>
+                    <button className="px-4 py-1 text-white bg-yellow-500 rounded" onClick={() => updateProduct(product)}>Update</button>
                     <button className="px-4 py-1 text-white bg-red-600 rounded">Delete</button>
                   </div>
                 </div>

@@ -7,6 +7,8 @@ const Context = createContext({
     liveProductsLoading: true,
     frLoading: true,
     useInfo: null,
+    updateItemOpen: false,
+    updateItem: null
 })
 
 export default Context;

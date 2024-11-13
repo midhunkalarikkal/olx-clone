@@ -8,6 +8,8 @@ import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [addItemOpen, setAddItemOpen] = useState(false);
+  const [updateItemOpen, setUpdateItemOpen] = useState(false);
+  const [updateItem, setUpdateItem] = useState(false);
   const [liveProductsLoading, setLiveProductsLoading] = useState(true);
   const [frLoading, setFrLoading] = useState(true);
   const [userInfo, setUserInfo] = useState(() => {
@@ -62,6 +64,10 @@ function App() {
           setFrLoading,
           userInfo,
           setUserInfo,
+          updateItemOpen,
+          setUpdateItemOpen,
+          updateItem,
+          setUpdateItem
         }}
       >
         <RouterProvider  router={appRouter}/>

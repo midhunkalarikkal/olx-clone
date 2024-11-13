@@ -3,20 +3,22 @@ import toast from "react-hot-toast";
 import Context from "../utils/Context";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, TextField, Typography, Grid } from "@mui/material";
 
-const AddItem = () => {
-  const { addItemOpen, setAddItemOpen, userLoggedIn, userInfo } = useContext(Context);
+const UpdateItem = () => {
+  const { updateItemOpen, setUpdateItemOpen, updateItem } = useContext(Context);
+  const [updationLoading, setUpdationLoading] = useState(false);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [place, setPlace] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const titleRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const priceRef = useRef(null);
-  const placeRef = useRef(null);
 
   const handleDivClose = () => {
-    setAddItemOpen(false);
+    setUpdateItemOpen(false);
   };
 
   const handleImageChange = (event) => {
@@ -27,39 +29,55 @@ const AddItem = () => {
     }
   };
 
+  useEffect(() => {
+    if (updateItemOpen && updateItem) {
+      setTitle(updateItem.productName || "");
+      setDescription(updateItem.description || "");
+      setPrice(updateItem.price || "");
+      setPlace(updateItem.place || "");
+      setPreview(updateItem.imageUrl || null);
+    }
+  }, [updateItemOpen, updateItem]);
+
   const handleSubmit = async () => {
-    if (!userLoggedIn) {
-      toast.error("Please login.");
-      return;
+    const formData = new FormData();
+    formData.append("uid", updateItem.uid);
+    formData.append("productName", title);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("place", place);
+
+    if (image) {
+      formData.append("imageUrl", image);
     }
 
-    const formData = new FormData();
-    formData.append("uid", userInfo.uid);
-    formData.append("productName", titleRef.current.value);
-    formData.append("description", descriptionRef.current.value);
-    formData.append("price", priceRef.current.value);
-    formData.append("place", placeRef.current.value);
-    formData.append("imageUrl", image);
-
     try {
-      const response = await fetch("http://localhost:5000/user/addProduct", {
-        method: "POST",
-        body: formData,
-      });
+        setUpdationLoading(true);
+      const response = await fetch(
+        `http://localhost:5000/user/updateProduct?_id=${updateItem._id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
       if (response.ok) {
-        toast.success("Item added successfully.");
-        titleRef.current.value = "";
-        descriptionRef.current.value = "";
-        priceRef.current.value = "";
-        placeRef.current.value = "";
+        setUpdationLoading(false);
+        toast.success("Item updated successfully.");
+        setTitle("");
+        setDescription("");
+        setPrice("");
+        setPlace("");
         setImage(null);
         setPreview(null);
         handleDivClose();
       } else {
-        toast.error("Item adding error,please try again");
+        setUpdationLoading(false);
+        toast.error("Item updating error,please try again");
       }
     } catch (error) {
-      toast.error("Item adding failed, please try again");
+        setUpdationLoading(false);
+      toast.error("Item updating failed, please try again");
     }
   };
 
@@ -78,7 +96,7 @@ const AddItem = () => {
 
   return (
     <Modal
-      open={addItemOpen}
+      open={updateItemOpen}
       onClose={handleDivClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -98,39 +116,50 @@ const AddItem = () => {
         </Box>
 
         <Typography variant="h6" mb={2} textAlign="center">
-          Add Item for Selling
+          Update product
         </Typography>
-
+        {updationLoading && 
+        <div class="loader-container">
+            <div class="loader">
+                <div class="inner-circle"></div>
+            </div>
+        </div>
+        }
+        { !updationLoading && 
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField
-              inputRef={titleRef}
               id="title"
               label="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               variant="outlined"
               fullWidth
               margin="dense"
             />
             <TextField
-              inputRef={descriptionRef}
               id="desc"
               label="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               variant="outlined"
               fullWidth
               margin="dense"
             />
             <TextField
-              inputRef={priceRef}
               id="price"
               label="Price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               variant="outlined"
               fullWidth
               margin="dense"
             />
             <TextField
-              inputRef={placeRef}
               id="place"
               label="Place"
+              value={place}
+              onChange={(e) => setPlace(e.target.value)}
               variant="outlined"
               fullWidth
               margin="dense"
@@ -145,6 +174,9 @@ const AddItem = () => {
               fullWidth
               margin="dense"
             />
+            <Typography variant="body1" mb={2} fontSize={10} color="red">
+              If you don’t select a new image, the current image will remain.
+            </Typography>
 
             {preview && (
               <Box
@@ -174,10 +206,11 @@ const AddItem = () => {
             )}
           </Grid>
         </Grid>
-
+        }
+        
         <Box display="flex" justifyContent="flex-end" mt={4}>
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Save
+          <Button variant="contained" color="primary" onClick={handleSubmit} disabled={updationLoading}>
+            Update
           </Button>
         </Box>
       </Box>
@@ -185,4 +218,4 @@ const AddItem = () => {
   );
 };
 
-export default AddItem;
+export default UpdateItem;

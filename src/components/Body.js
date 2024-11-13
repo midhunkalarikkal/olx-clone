@@ -2,6 +2,7 @@ import Footer from "./Footer";
 import AddItem from "./AddItem";
 import Header from "./Header/Header";
 import { Outlet } from "react-router-dom";
+import UpdateItem from "./UpdateItem";
 
 const Body = () => {
   return (
@@ -10,6 +11,7 @@ const Body = () => {
       <Outlet />
       <Footer />
       <AddItem />
+      <UpdateItem />
     </div>
   );
 };
