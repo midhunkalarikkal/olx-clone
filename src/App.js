@@ -6,18 +6,19 @@ import MainContainer from "./components/MainContainer";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
 function App() {
+  const [frLoading, setFrLoading] = useState(true);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [updateItem, setUpdateItem] = useState(false);
   const [addItemOpen, setAddItemOpen] = useState(false);
   const [updateItemOpen, setUpdateItemOpen] = useState(false);
-  const [updateItem, setUpdateItem] = useState(false);
   const [liveProductsLoading, setLiveProductsLoading] = useState(true);
-  const [frLoading, setFrLoading] = useState(true);
   const [userInfo, setUserInfo] = useState(() => {
     const savedUserInfo = localStorage.getItem("userInfo");
     return savedUserInfo ? JSON.parse(savedUserInfo) : null;
   });
-  
   const [userLoggedIn, setUserLoggedIn] = useState(!!userInfo);
+  
+
 
   useEffect(() => {
     if (userInfo) {
@@ -67,7 +68,7 @@ function App() {
           updateItemOpen,
           setUpdateItemOpen,
           updateItem,
-          setUpdateItem
+          setUpdateItem,
         }}
       >
         <RouterProvider  router={appRouter}/>

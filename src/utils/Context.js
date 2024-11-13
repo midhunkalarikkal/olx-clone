@@ -8,7 +8,7 @@ const Context = createContext({
     frLoading: true,
     useInfo: null,
     updateItemOpen: false,
-    updateItem: null
+    updateItem: null,
 })
 
 export default Context;

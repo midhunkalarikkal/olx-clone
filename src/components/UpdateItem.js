@@ -11,11 +11,11 @@ const UpdateItem = () => {
   const [updationLoading, setUpdationLoading] = useState(false);
 
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [place, setPlace] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [description, setDescription] = useState("");
 
   const handleDivClose = () => {
     setUpdateItemOpen(false);
@@ -52,31 +52,28 @@ const UpdateItem = () => {
     }
 
     try {
-        setUpdationLoading(true);
+      setUpdationLoading(true);
       const response = await fetch(
-        `http://localhost:5000/user/updateProduct?_id=${updateItem._id}`,
+        `https://olx-c-backend.onrender.com/user/updateProduct?_id=${updateItem._id}`,
         {
           method: "POST",
           body: formData,
         }
       );
-
-      if (response.ok) {
-        setUpdationLoading(false);
-        toast.success("Item updated successfully.");
-        setTitle("");
-        setDescription("");
-        setPrice("");
-        setPlace("");
-        setImage(null);
-        setPreview(null);
-        handleDivClose();
-      } else {
-        setUpdationLoading(false);
-        toast.error("Item updating error,please try again");
+      if (!response.ok) {
+        throw new Error("Item adding failed");
       }
+      setUpdationLoading(false);
+      toast.success("Item updated successfully.");
+      setTitle("");
+      setDescription("");
+      setPrice("");
+      setPlace("");
+      setImage(null);
+      setPreview(null);
+      handleDivClose();
     } catch (error) {
-        setUpdationLoading(false);
+      setUpdationLoading(false);
       toast.error("Item updating failed, please try again");
     }
   };
@@ -118,98 +115,103 @@ const UpdateItem = () => {
         <Typography variant="h6" mb={2} textAlign="center">
           Update product
         </Typography>
-        {updationLoading && 
-        <div class="loader-container">
+        {updationLoading && (
+          <div class="loader-container">
             <div class="loader">
-                <div class="inner-circle"></div>
+              <div class="inner-circle"></div>
             </div>
-        </div>
-        }
-        { !updationLoading && 
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              id="title"
-              label="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              variant="outlined"
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              id="desc"
-              label="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              variant="outlined"
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              id="price"
-              label="Price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              variant="outlined"
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              id="place"
-              label="Place"
-              value={place}
-              onChange={(e) => setPlace(e.target.value)}
-              variant="outlined"
-              fullWidth
-              margin="dense"
-            />
-          </Grid>
+          </div>
+        )}
+        {!updationLoading && (
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                id="title"
+                label="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                variant="outlined"
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                id="desc"
+                label="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                variant="outlined"
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                id="price"
+                label="Price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                variant="outlined"
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                id="place"
+                label="Place"
+                value={place}
+                onChange={(e) => setPlace(e.target.value)}
+                variant="outlined"
+                fullWidth
+                margin="dense"
+              />
+            </Grid>
 
-          <Grid item xs={12} md={6} textAlign="center">
-            <TextField
-              type="file"
-              inputProps={{ accept: "image/*" }}
-              onChange={handleImageChange}
-              fullWidth
-              margin="dense"
-            />
-            <Typography variant="body1" mb={2} fontSize={10} color="red">
-              If you don’t select a new image, the current image will remain.
-            </Typography>
+            <Grid item xs={12} md={6} textAlign="center">
+              <TextField
+                type="file"
+                inputProps={{ accept: "image/*" }}
+                onChange={handleImageChange}
+                fullWidth
+                margin="dense"
+              />
+              <Typography variant="body1" mb={2} fontSize={10} color="red">
+                If you don’t select a new image, the current image will remain.
+              </Typography>
 
-            {preview && (
-              <Box
-                mt={2}
-                sx={{
-                  width: "100%",
-                  height: 200,
-                  border: "2px solid #ccc",
-                  borderRadius: 2,
-                  overflow: "hidden",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "#fff",
-                }}
-              >
-                <img
-                  src={preview}
-                  alt="Selected"
-                  style={{
+              {preview && (
+                <Box
+                  mt={2}
+                  sx={{
                     width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
+                    height: 200,
+                    border: "2px solid #ccc",
+                    borderRadius: 2,
+                    overflow: "hidden",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "#fff",
                   }}
-                />
-              </Box>
-            )}
+                >
+                  <img
+                    src={preview}
+                    alt="Selected"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
+              )}
+            </Grid>
           </Grid>
-        </Grid>
-        }
-        
+        )}
+
         <Box display="flex" justifyContent="flex-end" mt={4}>
-          <Button variant="contained" color="primary" onClick={handleSubmit} disabled={updationLoading}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            disabled={updationLoading}
+          >
             Update
           </Button>
         </Box>
