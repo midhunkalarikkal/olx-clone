@@ -5,30 +5,42 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 
 const LiveProducts = () => {
   const [liveProducts, setLiveProducts] = useState(null);
-  const { liveProductsLoading, setLiveProductsLoading, userInfo } =
-    useContext(Context);
+  const { liveProductsLoading, setLiveProductsLoading, userInfo } = useContext(Context);
   const { uid } = userInfo || "";
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const getLiveProduct = useCallback(async () => {
-    const response = await fetch(
-      `http://localhost:5000/user/getLiveProducts?uid=${uid}`,
-      {
-        method: "GET",
-      }
-    );
-    if (!response.ok) {
-      console.log("response : ", response);
-      setLiveProductsLoading(true);
+    if (!uid) {
       return;
     }
-    const data = await response.json();
-    setLiveProducts(data);
-    setLiveProductsLoading(false);
-  }, [setLiveProductsLoading, uid]);
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/user/getLiveProducts?uid=${uid}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) {
+        setLiveProductsLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+      setLiveProducts(data);
+      setLiveProductsLoading(false);
+    } catch (error) {
+      setLiveProductsLoading(false);
+    }
+  }, [uid, API_BASE_URL, setLiveProductsLoading]);
 
   useEffect(() => {
-    getLiveProduct();
-  }, []);
+    if (uid) {
+      setLiveProductsLoading(true);
+      getLiveProduct();
+    }
+  }, [uid, getLiveProduct, setLiveProductsLoading]);
 
   return (
     <div className="mt-1 md:mt-4 pt-10 md:p-16">

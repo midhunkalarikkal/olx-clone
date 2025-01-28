@@ -8,6 +8,7 @@ import { Button, TextField, Typography, Grid } from "@mui/material";
 
 const AddItem = () => {
   const { addItemOpen, setAddItemOpen, userLoggedIn, userInfo } = useContext(Context);
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -45,7 +46,7 @@ const AddItem = () => {
 
     try {
       setItemAddingLoading(true);
-      const response = await fetch("http://localhost:5000/user/addProduct", {
+      const response = await fetch(`${API_BASE_URL}/user/addProduct`, {
         method: "POST",
         body: formData,
       });

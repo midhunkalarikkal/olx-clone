@@ -10,13 +10,12 @@ const Profile = () => {
   const [userProductsloading, setUserProductsLoading] = useState(true);
   const { userInfo, setUpdateItemOpen, setUpdateItem } = useContext(Context);
   const [userProductDeletionLoading, setUserProductDeletionLoading] = useState(false);
-
-  const { displayName, email, emailVerified, phoneNumber, uid } =
-    userInfo || "";
+  const { displayName, email, emailVerified, phoneNumber, uid } = userInfo || "";
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const getUserProducts = async () => {
     const response = await fetch(
-      `http://localhost:5000/user/getUserProducts?uid=${uid}`,
+      `${API_BASE_URL}/user/getUserProducts?uid=${uid}`,
       {
         method: "GET",
       }
@@ -40,7 +39,7 @@ const Profile = () => {
   const deleteProduct = async (id) => {
     setUserProductDeletionLoading(true);
     const response = await fetch(
-      `http://localhost:5000/user/deleteProduct?_id=${id}`,
+      `${API_BASE_URL}/user/deleteProduct?_id=${id}`,
       {
         method: "POST",
       }

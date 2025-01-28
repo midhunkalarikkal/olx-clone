@@ -9,6 +9,7 @@ import { Button, TextField, Typography, Grid } from "@mui/material";
 const UpdateItem = () => {
   const { updateItemOpen, setUpdateItemOpen, updateItem } = useContext(Context);
   const [updationLoading, setUpdationLoading] = useState(false);
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -54,7 +55,7 @@ const UpdateItem = () => {
     try {
       setUpdationLoading(true);
       const response = await fetch(
-        `http://localhost:5000/user/updateProduct?_id=${updateItem._id}`,
+        `${API_BASE_URL}/user/updateProduct?_id=${updateItem._id}`,
         {
           method: "POST",
           body: formData,
@@ -116,9 +117,9 @@ const UpdateItem = () => {
           Update product
         </Typography>
         {updationLoading && (
-          <div class="loader-container">
-            <div class="loader">
-              <div class="inner-circle"></div>
+          <div className="loader-container">
+            <div className="loader">
+              <div className="inner-circle"></div>
             </div>
           </div>
         )}
