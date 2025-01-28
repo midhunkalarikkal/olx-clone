@@ -1,8 +1,8 @@
-import Footer from "./Footer";
-import AddItem from "./AddItem";
+import Footer from "./Footer/Footer";
+import AddItem from "./Item/AddItem";
 import Header from "./Header/Header";
 import { Outlet } from "react-router-dom";
-import UpdateItem from "./UpdateItem";
+import UpdateItem from "./Item/UpdateItem";
 
 const Body = () => {
   return (

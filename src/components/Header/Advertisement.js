@@ -1,4 +1,3 @@
-
 const Advertisement = () => {
   return (
     <div className="mt-2 hidden md:block">

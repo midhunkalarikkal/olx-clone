@@ -1,6 +1,6 @@
-import Context from "../utils/Context";
-import ShimmerCard from "./ShimmerCard";
+import Context from "../../utils/Context";
 import LiveProductCard from "./LiveProductCard";
+import ShimmerCard from "../Shimmers/ShimmerCard";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
 const LiveProducts = () => {
@@ -22,7 +22,7 @@ const LiveProducts = () => {
 
   useEffect(() => {
     getLiveProduct();
-  }, []);
+  }, [getLiveProduct]);
 
   return (
     <div className="mt-1 md:mt-4 pt-10 md:p-16">

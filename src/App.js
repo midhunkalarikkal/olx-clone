@@ -1,6 +1,6 @@
 import Body from "./components/Body";
 import Context from "./utils/Context";
-import Profile from "./components/Profile";
+import Profile from "./components/Profile/Profile";
 import { useEffect, useState } from "react";
 import MainContainer from "./components/MainContainer";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";

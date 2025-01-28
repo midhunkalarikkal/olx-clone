@@ -1,8 +1,8 @@
-import ItemCard from "./ItemCard";
 import { useContext } from "react";
-import Context from "../utils/Context";
-import ShimmerCard from "./ShimmerCard";
-import dummyDataContext from "../utils/useContext";
+import ItemCard from "../Item/ItemCard";
+import Context from "../../utils/Context";
+import ShimmerCard from "../Shimmers/ShimmerCard";
+import dummyDataContext from "../../utils/useContext";
 
 const FreshRecommendations = () => {
   const { freshRecommended } = useContext(dummyDataContext);

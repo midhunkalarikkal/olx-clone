@@ -1,9 +1,9 @@
 import toast from "react-hot-toast";
-import Context from "../utils/Context";
-import React, { useContext, useState } from "react";
-import Shimmer from "./Shimmer";
-import LiveProductCard from "./LiveProductCard";
 import ProfileCard from "./ProfileCard";
+import Shimmer from "../Shimmers/Shimmer";
+import Context from "../../utils/Context";
+import React, { useContext, useState } from "react";
+import LiveProductCard from "../ProductsListing/LiveProductCard";
 
 const Profile = () => {
   const [userProducts, setUserProducts] = useState(null);

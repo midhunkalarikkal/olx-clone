@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
 import Context from "../utils/Context";
 import Modal from "@mui/material/Modal";
-import { auth, provider } from "../utils/firebase";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import { auth, provider } from "../utils/firebase";
 import { validateUserData } from "../utils/validations";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
