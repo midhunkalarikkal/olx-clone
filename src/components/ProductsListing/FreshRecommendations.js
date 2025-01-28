@@ -1,6 +1,6 @@
-import { useContext } from "react";
 import ItemCard from "../Item/ItemCard";
 import Context from "../../utils/Context";
+import { useContext, useEffect } from "react";
 import ShimmerCard from "../Shimmers/ShimmerCard";
 import dummyDataContext from "../../utils/useContext";
 
@@ -8,11 +8,13 @@ const FreshRecommendations = () => {
   const { freshRecommended } = useContext(dummyDataContext);
   const { frLoading, setFrLoading } = useContext(Context);
 
-  if (!freshRecommended) {
-    setFrLoading(true);
-  } else {
-    setFrLoading(false);
-  }
+  useEffect(() => {
+    if (!freshRecommended) {
+      setFrLoading(true);
+    } else {
+      setFrLoading(false);
+    }
+  }, [freshRecommended, setFrLoading]);
 
   return (
     <div className="mt-1 md:mt-4 pt-10 md:p-16">
