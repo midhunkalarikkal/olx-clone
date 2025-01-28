@@ -54,7 +54,7 @@ const UpdateItem = () => {
     try {
       setUpdationLoading(true);
       const response = await fetch(
-        `https://olx-c-backend.onrender.com/user/updateProduct?_id=${updateItem._id}`,
+        `http://localhost:5000/user/updateProduct?_id=${updateItem._id}`,
         {
           method: "POST",
           body: formData,

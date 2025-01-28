@@ -45,7 +45,7 @@ const AddItem = () => {
 
     try {
       setItemAddingLoading(true);
-      const response = await fetch("https://olx-c-backend.onrender.com/user/addProduct", {
+      const response = await fetch("http://localhost:5000/user/addProduct", {
         method: "POST",
         body: formData,
       });

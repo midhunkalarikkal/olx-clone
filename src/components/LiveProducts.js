@@ -33,9 +33,11 @@ const LiveProducts = () => {
             .fill()
             .map((_, index) => <ShimmerCard key={index} />)
         ) : liveProducts && liveProducts.length === 0 ? (
-          <h1 className="text-center text-red-500">
-            No live data found on the server
-          </h1>
+          <div className="p-1 bg-slate-100 rounded-lg">
+            <h1 className="text-center text-red-500 font-bold">
+              No live data found on the server
+            </h1>
+          </div>
         ) : (
           liveProducts &&
           liveProducts.map((item) => (

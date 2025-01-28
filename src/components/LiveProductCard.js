@@ -9,7 +9,7 @@ const LiveProductCard = React.memo(({ data }) => {
 
   return (
     <div className="flex flex-col bg-white rounded-lg overflow-hidden border border-gray-300 m-1">
-      <div className="h-[80px] md:h-[180px]">
+      <div className="h-[80px] md:h-[180px] productCard">
         <img
           className="w-full h-full object-contain"
           src={imageUrl}
