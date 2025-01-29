@@ -20,7 +20,7 @@ const LiveProducts = () => {
     setLiveProductsLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/user/getLiveProducts?uid=${uid}`,
+        `${API_BASE_URL}/user/getLiveProducts?uid=${uid}`,
         { method: "GET" }
       );
 

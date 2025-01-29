@@ -11,13 +11,14 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [deletingProductId, setDeletingProductId] = useState(null);
   const { displayName, email, emailVerified, phoneNumber, uid } = userInfo || {};
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
     const fetchUserProducts = async () => {
       if (!uid) return;
 
       try {
-        const response = await fetch(`http://localhost:5000/user/getUserProducts?uid=${uid}`);
+        const response = await fetch(`${API_BASE_URL}/user/getUserProducts?uid=${uid}`);
         if (!response.ok) throw new Error("Failed to fetch products");
 
         const data = await response.json();
@@ -43,7 +44,7 @@ const Profile = () => {
     setDeletingProductId(id);
 
     try {
-      const response = await fetch(`http://localhost:5000/user/deleteProduct?_id=${id}`, { method: "POST" });
+      const response = await fetch(`${API_BASE_URL}/user/deleteProduct?_id=${id}`, { method: "POST" });
       if (!response.ok) throw new Error("Failed to delete product");
 
       toast.success("Product deleted successfully.");
