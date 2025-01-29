@@ -5,42 +5,55 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 
 const LiveProducts = () => {
   const [liveProducts, setLiveProducts] = useState(null);
-  const { liveProductsLoading, setLiveProductsLoading, userInfo } = useContext(Context);
+  const {
+    liveProductsLoading,
+    setLiveProductsLoading,
+    userInfo,
+    setLiveProductFetchError,
+    liveProductFetchError,
+  } = useContext(Context);
   const { uid } = userInfo || "";
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const getLiveProduct = useCallback(async () => {
-    if (!uid) {
-      return;
-    }
-
+    
+    setLiveProductsLoading(true);
     try {
       const response = await fetch(
-        `${API_BASE_URL}/user/getLiveProducts?uid=${uid}`,
-        {
-          method: "GET",
-        }
+        `http://localhost:5000/user/getLiveProducts?uid=${uid}`,
+        { method: "GET" }
       );
 
       if (!response.ok) {
-        setLiveProductsLoading(false);
-        return;
+        throw new Error("Failed to fetch live products");
       }
 
       const data = await response.json();
       setLiveProducts(data);
-      setLiveProductsLoading(false);
+      setLiveProductFetchError(false);
     } catch (error) {
+      setLiveProductFetchError(true);
+    } finally {
       setLiveProductsLoading(false);
     }
-  }, [uid, API_BASE_URL, setLiveProductsLoading]);
+  }, [uid, API_BASE_URL, setLiveProductsLoading, setLiveProductFetchError]);
 
   useEffect(() => {
-    if (uid) {
-      setLiveProductsLoading(true);
-      getLiveProduct();
-    }
-  }, [uid, getLiveProduct, setLiveProductsLoading]);
+    getLiveProduct();
+  }, [getLiveProduct]);
+
+  if (liveProductFetchError) {
+    return (
+      <div className="mt-1 md:mt-4 pt-10 md:p-16">
+        <h1 className="text-lg md:text-2xl pl-6">Live Products</h1>
+        <div className="p-1 bg-slate-100 rounded-lg">
+          <h1 className="text-center text-red-500 font-bold">
+            Live data fetching error
+          </h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-1 md:mt-4 pt-10 md:p-16">

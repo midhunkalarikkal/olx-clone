@@ -12,6 +12,8 @@ function App() {
   const [addItemOpen, setAddItemOpen] = useState(false);
   const [updateItemOpen, setUpdateItemOpen] = useState(false);
   const [liveProductsLoading, setLiveProductsLoading] = useState(true);
+  const [liveProductFetchError, setLiveProductFetchError] = useState(false);
+  const [profileProductFetchError, setProfileProductFetchError] = useState(false);
   const [userInfo, setUserInfo] = useState(() => {
     const savedUserInfo = localStorage.getItem("userInfo");
     return savedUserInfo ? JSON.parse(savedUserInfo) : null;
@@ -69,6 +71,10 @@ function App() {
           setUpdateItemOpen,
           updateItem,
           setUpdateItem,
+          liveProductFetchError,
+          setLiveProductFetchError,
+          profileProductFetchError,
+          setProfileProductFetchError
         }}
       >
         <RouterProvider  router={appRouter}/>

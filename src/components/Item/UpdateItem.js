@@ -55,7 +55,7 @@ const UpdateItem = () => {
     try {
       setUpdationLoading(true);
       const response = await fetch(
-        `${API_BASE_URL}/user/updateProduct?_id=${updateItem._id}`,
+        `http://localhost:5000/user/updateProduct?_id=${updateItem._id}`,
         {
           method: "POST",
           body: formData,

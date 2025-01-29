@@ -46,7 +46,7 @@ const AddItem = () => {
 
     try {
       setItemAddingLoading(true);
-      const response = await fetch(`${API_BASE_URL}/user/addProduct`, {
+      const response = await fetch(`http://localhost:5000/user/addProduct`, {
         method: "POST",
         body: formData,
       });

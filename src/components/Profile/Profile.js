@@ -2,98 +2,95 @@ import toast from "react-hot-toast";
 import ProfileCard from "./ProfileCard";
 import Shimmer from "../Shimmers/Shimmer";
 import Context from "../../utils/Context";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import LiveProductCard from "../ProductsListing/LiveProductCard";
 
 const Profile = () => {
+  const { userInfo, setUpdateItemOpen, setUpdateItem, profileProductFetchError, setProfileProductFetchError } = useContext(Context);
   const [userProducts, setUserProducts] = useState(null);
-  const [userProductsloading, setUserProductsLoading] = useState(true);
-  const { userInfo, setUpdateItemOpen, setUpdateItem } = useContext(Context);
-  const [userProductDeletionLoading, setUserProductDeletionLoading] = useState(false);
-  const { displayName, email, emailVerified, phoneNumber, uid } = userInfo || "";
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  const [loading, setLoading] = useState(true);
+  const [deletingProductId, setDeletingProductId] = useState(null);
+  const { displayName, email, emailVerified, phoneNumber, uid } = userInfo || {};
 
-  const getUserProducts = async () => {
-    const response = await fetch(
-      `${API_BASE_URL}/user/getUserProducts?uid=${uid}`,
-      {
-        method: "GET",
+  useEffect(() => {
+    const fetchUserProducts = async () => {
+      if (!uid) return;
+
+      try {
+        const response = await fetch(`http://localhost:5000/user/getUserProducts?uid=${uid}`);
+        if (!response.ok) throw new Error("Failed to fetch products");
+
+        const data = await response.json();
+        setUserProducts(data);
+        setProfileProductFetchError(false);
+      } catch (error) {
+        toast.error("Products fetching error.");
+        setProfileProductFetchError(true);
+      } finally {
+        setLoading(false);
       }
-    );
-    if (response.ok) {
-      const data = await response.json();
-      setUserProducts(data);
-      setUserProductsLoading(false);
-    }
-  };
+    };
 
-  useState(() => {
-    getUserProducts();
-  }, [userInfo]);
+    fetchUserProducts();
+  }, [uid]);
 
-  const updateProduct = async (product) => {
+  const handleUpdateProduct = (product) => {
     setUpdateItemOpen(true);
     setUpdateItem(product);
   };
 
-  const deleteProduct = async (id) => {
-    setUserProductDeletionLoading(true);
-    const response = await fetch(
-      `${API_BASE_URL}/user/deleteProduct?_id=${id}`,
-      {
-        method: "POST",
-      }
-    );
-    if (response.ok) {
-      setUserProductDeletionLoading(false);
-      toast.success("Product deleted successfullt.");
-      setUserProducts((prevProducts) =>
-        prevProducts.filter((product) => product._id !== id)
-      );
-    } else {
-      setUserProductDeletionLoading(false);
-      toast.error("Error product delete, please try again!");
+  const handleDeleteProduct = async (id) => {
+    setDeletingProductId(id);
+
+    try {
+      const response = await fetch(`http://localhost:5000/user/deleteProduct?_id=${id}`, { method: "POST" });
+      if (!response.ok) throw new Error("Failed to delete product");
+
+      toast.success("Product deleted successfully.");
+      setUserProducts((prev) => prev.filter((product) => product._id !== id));
+    } catch (error) {
+      toast.error("Error deleting product, please try again!");
+    } finally {
+      setDeletingProductId(null);
     }
   };
 
   return (
-    <div className="md:flex w-[90%] mx-auto bg-white mt-1 min-h-screen">
-      <ProfileCard
-        profileData={{ displayName, email, emailVerified, phoneNumber }}
-        productCount={userProducts?.length || 0}
-      />
+    <div className="w-[90%] mx-auto bg-white mt-1 min-h-screen flex flex-col md:flex-row">
+      <ProfileCard profileData={{ displayName, email, emailVerified, phoneNumber }} productCount={userProducts?.length || 0} />
 
       <div className="w-full md:w-8/12 p-4 md:border-l-2">
-        <h1 className="font-bold text-md lg:text-2xl py-2">Your products</h1>
-        <p className="text-sm text-red-500 font-semibold p-2">
-          {userProductDeletionLoading && "Deleting Product"}
-        </p>
-        {userProductsloading ? (
+        <h1 className="font-bold text-md lg:text-2xl py-2">Your Products</h1>
+
+        {deletingProductId && <p className="text-sm text-red-500 font-semibold p-2">Deleting product...</p>}
+        {profileProductFetchError && <p className="text-sm text-red-500 font-semibold p-2">Failed to fetch products!</p>}
+
+        {loading && !profileProductFetchError ? (
           <Shimmer />
-        ) : userProducts && userProducts.length > 0 ? (
+        ) : userProducts?.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {userProducts.map((product, index) => (
-              <div key={index} className="relative">
-              <LiveProductCard data={product} />              
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:opacity-100">
-                <button
-                  className="p-1 md:p-2 rounded-md bg-blue-500 text-xs md:text-sm text-white"
-                  onClick={() => updateProduct(product)}
-                >
-                  update
-                </button>
-                <button
-                  className="p-1 md:p-2 rounded-md bg-red-500 text-xs md:text-sm mx-2 text-white"
-                  onClick={() => deleteProduct(product._id)}
-                >
-                  Delete
-                </button>
+            {userProducts.map((product) => (
+              <div key={product._id} className="relative group">
+                <LiveProductCard data={product} />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    className="p-2 rounded-md bg-blue-500 text-white text-sm"
+                    onClick={() => handleUpdateProduct(product)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="p-2 mx-2 rounded-md bg-red-500 text-white text-sm"
+                    onClick={() => handleDeleteProduct(product._id)}
+                  >
+                    {deletingProductId === product._id ? "Deleting..." : "Delete"}
+                  </button>
+                </div>
               </div>
-            </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-600">Your product list is empty!.</p>
+          !profileProductFetchError && <p className="text-gray-600">Your product list is empty.</p>
         )}
       </div>
     </div>

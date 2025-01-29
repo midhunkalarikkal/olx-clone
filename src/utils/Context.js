@@ -9,6 +9,8 @@ const Context = createContext({
     useInfo: null,
     updateItemOpen: false,
     updateItem: null,
+    liveProductFetchError: false,
+    profileProductFetchError: false,
 })
 
 export default Context;
