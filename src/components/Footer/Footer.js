@@ -82,7 +82,10 @@ const Footer = () => {
             <p className="md:pl-32">Help - Sitemap</p>
         </div>
         <div className="flex justify-center md:justify-end lg:w-8/12">
-            <p className="md:pr-20">All rights reserver @ 2006-2024 OLX</p>
+            <p className="md:pr-20">Disclaimer: This is a personal project.</p>
+        </div>
+        <div className="flex justify-center md:justify-end lg:w-8/12">
+            <p className="md:pr-20">All rights reserver @ 2025-2026 Midhun</p>
         </div>
       </div>
     </div>
