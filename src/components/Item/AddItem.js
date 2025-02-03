@@ -35,6 +35,11 @@ const AddItem = () => {
       toast.error("Please login.");
       return;
     }
+    
+    if(!titleRef.current.value || !descriptionRef.current.value || !priceRef.current.value || !placeRef.current.value || !image){
+      toast.error("Please fill the form.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("uid", userInfo.uid);

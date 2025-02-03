@@ -55,7 +55,7 @@ const Header = () => {
 
   return (
     <>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <div
         className="w-full flex p-1 border-b-4 border-white shadow-lg h-14 md:h-16"
         style={{ backgroundColor: "#f0f0f2" }}
