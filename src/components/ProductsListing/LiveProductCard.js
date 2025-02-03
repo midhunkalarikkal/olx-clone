@@ -17,13 +17,13 @@ const LiveProductCard = React.memo(({ data }) => {
           alt="Item"
         />
       </div>
-      <div className="flex flex-col p-2 md:p-4 space-y-1 md:space-y-2">
-        <h5 className="text-sm md:text-lg  font-semibold text-gray-800">
+      <div className="flex flex-col px-2 md:px-4 md:py-1 space-y-0.5">
+        <h5 className="text-sm md:text-lg  font-semibold text-[#002f34]">
         ₹ {price}
         </h5>
-        <p className="text-sm text-gray-600">{description.slice(0, 20)}...</p>
-        <div className="flex justify-between text-sm text-gray-500">
-          <p>{place}</p>
+        <p className="text-md text-[#002f34]">{description.slice(0, 20)}...</p>
+        <div className="flex justify-between text-xs text-[#5c7a7d]">
+          <p>{place.toUpperCase()}</p>
           <p>{`${day}/${month}/${year}`}</p>
         </div>
       </div>
