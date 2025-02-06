@@ -4,6 +4,7 @@ import SellButton from "./SellButton";
 import Context from "../../utils/Context";
 import { auth } from "../../utils/firebase";
 import MenuIcon from "@mui/icons-material/Menu";
+import { OLX_LOGO } from "../../utils/constants";
 import toast, { Toaster } from "react-hot-toast";
 import { onAuthStateChanged } from "firebase/auth";
 import SearchIcon from "@mui/icons-material/Search";
@@ -75,7 +76,7 @@ const Header = () => {
               width: "90%",
               height: "90%",
             }}
-            src="https://statics.olx.in/external/base/img/cartrade/logo/olx.svg?v=1"
+            src={OLX_LOGO}
             alt="Logo"
           />
         </Box>

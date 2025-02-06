@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Context from "../utils/Context";
 import Modal from "@mui/material/Modal";
+import { LOGIN_LOGO } from "../utils/constants";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { auth, provider } from "../utils/firebase";
@@ -176,7 +177,7 @@ export default function Login() {
         >
           <Box
             component="img"
-            src="https://statics.olx.in/external/base/img/loginEntryPointPost.png"
+            src={LOGIN_LOGO}
             alt="Placeholder Image"
             sx={{
               width: 80,

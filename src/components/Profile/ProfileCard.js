@@ -1,4 +1,5 @@
 import React from "react";
+import { PROFILE_IMAGE } from "../../utils/constants";
 
 const ProfileCard = React.memo(({ profileData, productCount }) => {
   const { displayName, email, emailVerified, phoneNumber } = profileData;
@@ -9,7 +10,7 @@ const ProfileCard = React.memo(({ profileData, productCount }) => {
         <div className="flex justify-center">
           <img
             className="w-32 h-32 rounded-full object-cover border-4 border-gray-300 shadow"
-            src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+            src={PROFILE_IMAGE}
             alt="Profile"
           />
         </div>
